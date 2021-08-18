@@ -1,0 +1,126 @@
+public function getCourseVerticalRanking(Request $request){
+	$studentId=$request->json('studentId');
+	$student=\App\User::find($studentId);
+	$courses=\App\Course::all();
+	foreach($courses as $coursekey=>$value){
+		$courseName=$value->name;
+		$exists=\App\CombineResult::where('studentId',$studentId)->where('courseId',$value)->exists();
+		if($exists==true){
+			$studentCombineResults=\App\CombineResult::where('studentId',$studentId)->where('courseId',$value)->get();
+			$studentCombineResultsScore=0;
+			foreach($studentCombineResults as $key=>$val){
+				$studentCombineResultsScore=$studentCombineResultsScore+$val->points
+			}//end foreach
+			$allStudents=\App\CombineResult::where('courseId',$course->id)->select('studentId')->distinct()->get();
+			$allStudentsScores=array();
+			foreach($allStudents as $askey => $asValue){
+				$ex1=\App\CombineResult::where('studentId',$val->studentId)->where('courseId',$value)->exists();
+				if($ex1==true){
+					$individualCombineResults=\App\CombineResult::where('studentId',$val->studentId)->where('courseId',$value)->get();
+					$individualCombineResultsScore=0;
+					foreach($individualCombineResults as $icrkey => $icrValue){
+						$individualCombineResultsScore=$individualCombineResultsScore+$icrValue->points;
+					}
+					array_push($allStudentsScores,$individualCombineResultsScore);
+				}
+			}//end foreach
+			$allStudentScoresUnique=array_unique($allStudentScores);
+			sort($allStudentScoresUnique);
+			$highestKey1=count($allStudentScoresUnique)-1;
+			$percentagesArray=array();
+			foreach($allStudentScoresUnique as $alsukey => $alsuValue){
+				if($highestKey1==0){
+					$per=100;
+				}
+				if($highestKey1!=0){
+					$per=$alsukey/$highestKey1*100;
+				}
+				array_push($percentagesArray,$per);
+				if($alsuValue==$studentCombineResultsScore){
+					$resultArray[$courseName]=$per;
+				}
+			}//end foreach
+		}//end exist true
+	}//end course foreach
+	$existsGlobal=\App\CombineResult::where('studentId',$studentId)->exists();
+	if($existsGlobal==true){
+		$studentCombineResultsGlobal=\App\CombineResult::where('studentId',$studentId)->get();
+		$studentCombineResultsScoreGlobal=0;
+		foreach($studentCombineResultsGlobal as $key as $value){
+			$studentCombineResultsScoreGlobal=$studentCombineResultsScoreGlobal+$value->points;
+		}//end foreach
+		$allStudentsGlobal=\App\CombineResult::select('studentId')->distinct()->get();
+		$allStudentsScoresGlobal=array();
+		foreach($allStudentsGlobal as $key2 => $value2){
+			$ex2=\App\CombineResult::where('studentId',$value2->studentId)->exists();
+			if($ex2==true){
+				$individualCombineResultsGlobal=\App\CombineResult::where('studentId',$val->studentId)->get();
+				$individualCombineResultsScoreGlobal=0;
+				foreach($individualCombineResultsGlobal as $icrgkey => $icrgValue){						
+					$individualCombineResultsScoreGlobal=$individualCombineResultsScoreGlobal+$icrgValue->points;
+				}
+				array_push($allStudentsScoresGlobal,$individualCombineResultsScoreGlobal);
+			}
+		}//end foreach
+		$allStudentScoresUniqueGlobal=array_unique($allStudentScoresGlobal);
+		sort($allStudentScoresUniqueGlobal);
+		$highestKey2=count($allStudentScoresUniqueGlobal)-1;
+		$percentagesArrayGlobal=array();
+		foreach($allStudentScoresUniqueGlobal as $alsugkey => $alsugValue){
+			if($highestKey2==0){
+				$per2=100;
+			}
+			if($highestKey2!=0){
+				$per2=$alsukey/$highestKey1*100;
+			}
+			array_push($percentagesArrayGlobal,$per2);
+			if($alsugValue==$studentCombineResultsScoreGlobal){
+				$resultArray['withoutBaremo']=$per2;
+			}
+		}//end foreach
+	}//end exist global if
+
+
+$existsGlobalBaremo=\App\CombineResult::where('studentId',$studentId)->exists();
+	if($existsGlobalBaremo==true){
+		$studentCombineResultsGlobalBaremo=\App\CombineResult::where('studentId',$studentId)->get();
+		$studentCombineResultsScoreGlobalBaremo=0;
+		foreach($studentCombineResultsGlobalBaremo as $bkey as $bvalue){
+			$studentCombineResultsScoreGlobalBaremo=$studentCombineResultsScoreGlobalBaremo+$bvalue->points;
+		}//end foreach
+		$studentCombineResultsScoreGlobalBaremo=$studentCombineResultsScoreGlobalBaremo+$student->baremo;
+		$allStudentsGlobalBaremo=\App\CombineResult::select('studentId')->distinct()->get();
+		$allStudentsScoresGlobalBaremo=array();
+		foreach($allStudentsGlobalBaremo as $key3 => $value3){
+			$ex3=\App\CombineResult::where('studentId',$value3->studentId)->exists();
+			$sb=\App\User::find($value3->studentId);
+			if($ex3==true){
+				$individualCombineResultsGlobalBaremo=\App\CombineResult::where('studentId',$val->studentId)->get();
+				$individualCombineResultsScoreGlobalBaremo=0;
+				foreach($individualCombineResultsGlobalBaremo as $icrgbkey => $icrgbValue){						
+					$individualCombineResultsScoreGlobalBaremo=$individualCombineResultsScoreGlobalBaremo+$icrgbValue->points;
+				}
+				$individualCombineResultsScoreGlobalBaremo=$individualCombineResultsScoreGlobalBaremo+$sb->baremo;
+				array_push($allStudentsScoresGlobalBaremo,$individualCombineResultsScoreGlobalBaremo);
+			}
+		}//end foreach
+		$allStudentScoresUniqueGlobalBaremo=array_unique($allStudentScoresGlobalBaremo);
+		sort($allStudentScoresUniqueGlobalBaremo);
+		$highestKey3=count($allStudentScoresUniqueGlobalBaremo)-1;
+		$percentagesArrayGlobalBaremo=array();
+		foreach($allStudentScoresUniqueGlobalBaremo as $alsugkey => $alsugValue){
+			if($highestKey3==0){
+				$per3=100;
+			}
+			if($highestKey3!=0){
+				$per3=$alsukey/$highestKey1*100;
+			}
+			array_push($percentagesArrayGlobalBaremo,$per3);
+			if($alsugValue==$studentCombineResultsScoreGlobalBaremo){
+				$resultArray['withBaremo']=$per3;
+			}
+		}//end foreach
+	}//end exist GlobalBaremo if
+
+
+}

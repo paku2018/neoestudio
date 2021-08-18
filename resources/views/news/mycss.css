@@ -1,0 +1,14 @@
+@font-face {
+    font-family: "Proxima";
+    src: url("pnswr.ttf");
+    
+    }
+    @font-face {
+    font-family: "Proxima Bold";
+    src: url("psttf.ttf");
+    
+    }
+@font-face {
+  font-family: "Rounded Elegance";
+  src: url("re.ttf");
+}

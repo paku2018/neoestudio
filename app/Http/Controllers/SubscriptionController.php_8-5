@@ -1,0 +1,101 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Pay;
+use App\Product;
+use App\StripeWebhook;
+use DB;
+use Illuminate\Http\Request;
+use App\Plan;
+use App\User;
+use Illuminate\Support\Facades\Session;
+use Stripe\Subscription;
+
+class SubscriptionController extends Controller
+{
+    protected $stripe;
+
+    public function __construct()
+    {
+        $this->stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
+        $this->middleware('auth', ['except' => ['purchase', 'create']]);
+    }
+
+    public function create(Request $request, Plan $plan)
+    {
+        $plan = Plan::findOrFail($request->get('plan'));
+        $user = Session::get('userData');
+        if (!isset($user) || empty($user) === true) {
+            return redirect()->route('comienza')->with('message', 'Please login to continue!');
+        }
+        $paymentMethod = $request->paymentMethod;
+        try {
+            $user->createOrGetStripeCustomer();
+            $user->updateDefaultPaymentMethod($paymentMethod);
+            $user->newSubscription('default', $plan->stripe_plan)
+                ->create($paymentMethod, [
+                    'email' => $user->email,
+                ]);
+            User::where('id', $user->id)->update(['field1x' => 'Desbloquear']);
+        } catch (\Exception $exception) {
+            $pays = Subscription::where('user_id', $uer->id)->where('stripe_plan', $plan->stripe_plan)->count();
+            if ($pays > 1) {
+                User::where('id', $user->id)->update(['field1x' => 'Bloquear']);
+            }
+            return redirect('/comienza')->with('errorPayment', $exception->getMessage());
+        }
+        return redirect()->route('home')->with('success', 'Your plan subscribed successfully');
+    }
+
+
+    public function createPlan()
+    {
+        return view('plans.create');
+    }
+
+    public function storePlan(Request $request)
+    {
+        $data = $request->except('_token');
+
+        $data['slug'] = strtolower($data['name']);
+        $price = $data['cost'] * 100;
+
+        //create stripe product
+        $stripeProduct = $this->stripe->products->create([
+            'name' => $data['name'],
+        ]);
+
+        //Stripe Plan Creation
+        $stripePlanCreation = $this->stripe->plans->create([
+            'amount' => $price,
+            'currency' => 'inr',
+            'interval' => 'month', //  it can be day,week,month or year
+            'product' => $stripeProduct->id,
+        ]);
+
+        $data['stripe_plan'] = $stripePlanCreation->id;
+
+        Plan::create($data);
+
+        echo 'plan has been created';
+    }
+
+    public function purchase(Request $request)
+    {
+        $user = Session::get('userData');
+        if (!isset($user) || empty($user) === true) {
+            return redirect()->route('comienza')->with('message', 'Please login to continue!');
+        }
+        $paymentMethod = $request->paymentMethod;
+        $amount = $request->amount;
+        try {
+            $user->createOrGetStripeCustomer();
+            $user->updateDefaultPaymentMethod($paymentMethod);
+            $user->charge($amount * 100, $paymentMethod);
+        } catch (\Exception $exception) {
+            return back()->with('error', $exception->getMessage());
+        }
+        return redirect()->route('home')->with('success', 'Product purchased successfully!');
+    }
+}

@@ -1,0 +1,2048 @@
+<?php
+
+namespace App\Http\Controllers\API;
+
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+
+class RankingController extends Controller
+{
+	public function getTopicCourseVerticalRanking(Request $request){
+		$studentId=$request->json('studentId');
+		//$studentId=4;
+		$ue=\App\User::where('id',$studentId)->exists();
+        if($ue==false){
+            return response()->json(['status'=>'Unsuccessfull','message'=>'User not found']);
+        }
+        $u=\App\User::find($studentId);
+        if($u->field1x=="Bloquear"){
+            return response()->json(['status'=>'Unsuccessfull','message'=>'User not found']);
+        }
+		$student=\App\User::find($studentId);
+		$folders=\App\Folder::where('type','exams')->where('studentType',$student->type)->get();
+	
+		$resultArray=array();
+		$courseKnow=\App\Course::where('name','Psicotécnicos')->first();
+				$cik=$courseKnow->id;
+				$courseKnow2=\App\Course::where('name','Inglés')->first();
+				$cik2=$courseKnow2->id;
+				$courseKnowO=\App\Course::where('name','Ortografía')->first();
+				$cikO=$courseKnowO->id;
+		foreach ($folders as $folderkey => $folder) {
+			//course with topic
+			$courses=\App\Course::all();
+			$coursesA=array();
+
+			foreach ($courses as $coursekey => $course) {
+				//p
+				
+					$m=null;
+					$s=null;
+					$h=null;
+					$ch=null;
+					$count=null;
+					$tfp=null;
+					$count=\App\CombineResult::select('points')->where('folderId',$folder->id)->where('courseId',$cik)
+									->get()->count();	
+
+					$tfp=intval(round(0.25*$count));
+
+					if($tfp>=1){
+						$combineResults=\App\CombineResult::where('folderId',$folder->id)->where('courseId',$cik)
+						->orderByRaw("CAST(points AS SIGNED) ASC")->get();	
+						//dd($combineResults);	
+						$allS=array();
+						foreach ($combineResults as $combinekey => $combine) {
+							$um=\App\User::find($combine->studentId);
+							if(!empty($um)){
+								array_push($allS,$combine->points);
+							}
+						}
+						$m=$allS[$tfp-1];	
+					}
+
+					if($tfp<1){
+						$m=0;
+					}
+					$ch=\App\CombineResult::where('folderId',$folder->id)->where('courseId',$cik)
+								->orderByRaw("CAST(points AS SIGNED) DESC")->get();	
+
+
+					if(!empty($ch[0])){			
+						$h=$ch[0]->points;
+						$s=$h-$m;
+
+					}
+
+					
+				//end p
+				if($course->name=="Psicotécnicos"){
+					
+					$studentCombineResult=\App\CombineResult::where('folderId',$folder->id)->where('courseId',$course->id)
+					->where('studentId',$studentId)->first();
+
+					if(empty($studentCombineResult)){
+						$course->setAttribute('rankName',"Ranking de $course->name");
+						$course->setAttribute('percentage','null');
+						$course->setAttribute('points','null');
+						$course->setAttribute('totalPoints','null');
+					}
+					if(!empty($studentCombineResult)){
+						//for current
+						$studentCombineResult=\App\CombineResult::where('folderId',$folder->id)->where('courseId',$course->id)
+						->where('studentId',$studentId)->first();
+						$directScore=$studentCombineResult->points;
+						
+						$f=$studentCombineResult->points-$m;
+
+						
+						$weightedC=15*$f/$s;
+
+						//end for current
+						$combineResults=\App\CombineResult::where('folderId',$folder->id)->where('courseId',$course->id)
+							->orderByRaw("CAST(points AS SIGNED) ASC")->get();	
+								
+						$allScores=array();
+						foreach ($combineResults as $combinekey => $combine) {
+							$um=\App\User::find($combine->studentId);
+							if(!empty($um)){
+								
+								$f=$combine->points-$m;
+								
+								$weightedA=15*$f/$s;
+								array_push($allScores,$weightedA);
+							}
+
+
+						}
+						$uniqueScores=array_unique($allScores);
+						sort($uniqueScores);
+						
+						$highestKey=count($uniqueScores)-1;
+						$percentages=array();
+
+						foreach ($uniqueScores as $uniquekey => $unique) {
+							
+							if($highestKey==0){
+								$per=100;
+							}
+							if($highestKey!=0){
+								$per=$uniquekey/$highestKey*100;
+							}
+							
+							array_push($percentages,$per);
+
+							if($unique==$weightedC){
+								
+								$course->setAttribute('rankName',"Ranking de $course->name");
+								$course->setAttribute('percentage',intval($per));
+								if($weightedC<0){
+									$course->setAttribute('points',0);
+								}
+								if($weightedC>=0){
+									$course->setAttribute('points',round($weightedC,2));
+								}
+								
+								$course->setAttribute('totalPoints','15');
+								
+							}
+						}
+					}
+				}
+
+				if($course->name!="Psicotécnicos"){
+					$studentCombineResult=\App\CombineResult::where('folderId',$folder->id)->where('courseId',$course->id)
+					->where('studentId',$studentId)->first();
+					if(empty($studentCombineResult)){
+						$course->setAttribute('rankName',"Ranking de $course->name");
+						$course->setAttribute('percentage','null');
+						$course->setAttribute('points','null');
+						$course->setAttribute('totalPoints','null');
+					}
+					if(!empty($studentCombineResult)){
+						$combineResults=\App\CombineResult::where('folderId',$folder->id)->where('courseId',$course->id)
+							->orderByRaw("CAST(points AS SIGNED) ASC")->get();		
+						$allScores=array();
+						foreach ($combineResults as $combinekey => $combine) {
+							$um=\App\User::find($combine->studentId);
+							if(!empty($um)){
+								array_push($allScores,$combine->points);
+							}
+						}
+						$uniqueScores=array_unique($allScores);
+						sort($uniqueScores);
+						$highestKey=count($uniqueScores)-1;
+						$percentages=array();
+						foreach ($uniqueScores as $uniquekey => $unique) {
+							
+							if($highestKey==0){
+								$per=100;
+							}
+							if($highestKey!=0){
+								$per=$uniquekey/$highestKey*100;
+							}
+							
+							array_push($percentages,$per);
+
+							if($unique==$studentCombineResult->points){
+
+								$course->setAttribute('rankName',"Ranking de $course->name");
+								$course->setAttribute('percentage',intval($per));
+								if($course->name=="Inglés"){
+									$divC=\App\CombineResult::where('folderId',$folder->id)->where('courseId',$course->id)->where('studentId',$studentId)->first();
+									$div=$divC->field1x;
+									$course->setAttribute('points',round($unique,2)/$div);
+									$course->setAttribute('totalPoints',$studentCombineResult->totalPoints/$div);
+								}
+								if($course->name!="Inglés"){
+									$course->setAttribute('points',round($unique,2));
+									$course->setAttribute('totalPoints',$studentCombineResult->totalPoints);
+								}
+								
+							}
+						}
+					}
+				}
+			}
+			
+			$cA=$courses->toArray();
+			$resultArray[$folderkey]['folderName']=$folder->name;
+			$resultArray[$folderkey]['courses']=$cA;	
+			//end course with topic
+
+
+			//start only topic without baremo
+			$exists1=\App\CombineResult::where('folderId',$folder->id)->where('studentId',$studentId)->where('courseId','!=',$cikO)->exists();
+
+			if($exists1==false){
+				$withoutArray=array();
+				$withoutArray['rankName']="Rank. $folder->name sin baremo";
+				$withoutArray['percentage']=null;
+				$withoutArray['points']=null;
+				$withoutArray['totalPoints']=null;
+				$resultArray[$folderkey]['withoutBaremo']=$withoutArray;
+
+				$withArray=array();
+				$withArray['rankName']="Rank. $folder->name con baremo";
+				$withArray['percentage']=null;
+				$withArray['points']=null;
+				$withArray['totalPoints']=null;
+				$resultArray[$folderkey]['withBaremo']=$withArray;
+				
+			}
+			if($exists1==true){
+				$courseKnow=\App\Course::where('name','Psicotécnicos')->first();
+				$cik=$courseKnow->id;
+				$courseKnow2=\App\Course::where('name','Inglés')->first();
+				$cik2=$courseKnow2->id;
+
+				$studentAllTopics=\App\CombineResult::where('folderId',$folder->id)->where('studentId',$studentId)->where('courseId','!=',$cikO)->get();
+				$studentAllTopicsScore=0;
+				$studentAllTopicsScoreTotal=0;
+				foreach ($studentAllTopics as $studentalltopickey => $value) {
+					if($value->courseId!=$cik && $value->courseId!=$cik2){
+						$studentAllTopicsScore=$studentAllTopicsScore+$value->points;
+					}
+				}
+				if(!empty($weightedC)){
+					if($weightedC<0){
+                        $weightedC=0;
+                    }
+					$studentAllTopicsScore=$studentAllTopicsScore+$weightedC;
+				}
+				//start ing
+				$ingCE=\App\CombineResult::where('folderId',$folder->id)->where('studentId',$studentId)
+				->where('courseId',$cik2)->exists();
+
+				if($ingCE==true){
+					$ingC=\App\CombineResult::where('folderId',$folder->id)->where('studentId',$studentId)
+					->where('courseId',$cik2)->get();
+					$divIng=0;
+					$ingTotal=0;
+
+					foreach ($ingC as $key => $ingV) {
+						$divIng=$divIng+$ingV->field1x;
+						$ingTotal=$ingTotal+$ingV->points;
+					}
+
+					$ingP=$ingTotal/$divIng;
+					$studentAllTopicsScore=$studentAllTopicsScore+$ingP;
+
+				}
+				//end ing
+
+
+				foreach ($studentAllTopics as $studentalltopickey => $value) {
+					if($value->courseId!=$cik&&$value->courseId!=$cik2){
+						$studentAllTopicsScoreTotal=$studentAllTopicsScoreTotal+$value->totalPoints;
+					}
+				}
+				if(isset($weightedC)){
+					$studentAllTopicsScoreTotal=$studentAllTopicsScoreTotal+15;
+				}
+				if($ingCE==true){
+					$studentAllTopicsScoreTotal=$studentAllTopicsScoreTotal+20;	
+				}
+
+				$allStudents=\App\CombineResult::where('folderId',$folder->id)->select('studentId')->distinct()->get();
+
+				$allStudentsIds=array();
+				foreach ($allStudents as $askey => $allStudent) {
+					$um2=\App\User::find($allStudent->studentId);
+					if(!empty($um2)){
+						array_push($allStudentsIds,$allStudent->studentId);
+					}
+				}
+
+				$scoresWithoutBaremo=array();
+				foreach ($allStudentsIds as $asidkey => $allStudentId) {
+					
+					$allResults=\App\CombineResult::where('folderId',$folder->id)->where('studentId',$allStudentId)->where('courseId','!=',$cikO)->get();
+					$allResultsScores=0;
+					foreach ($allResults as $allresultkey => $allResult) {
+						if($allResult->courseId!=$cik&&$allResult->courseId!=$cik2){
+							$allResultsScores=$allResultsScores+$allResult->points;
+						}
+					}
+					//for wei
+					$allResultsP=\App\CombineResult::where('folderId',$folder->id)->where('studentId',$allStudentId)->where('courseId',$cik)->get();
+
+					if(!empty($allResultsP)){
+						$allResultsScoresP=0;
+						foreach ($allResultsP as $allresultkeyP => $allResultP) {
+							$allResultsScoresP=$allResultsScoresP+$allResultP->points;
+						}
+						$fP=$allResultsScoresP-$m;
+						$wP=15*$fP/$s;
+						if($wP<0){
+							$wP=0;
+						}
+						$allResultsScores=$allResultsScores+$wP;
+						
+					}
+					//end forwei
+					//start ing
+					$ingEE=\App\CombineResult::where('folderId',$folder->id)->where('studentId',$allStudentId)
+					->where('courseId',$cik2)->exists();
+					if($ingEE==true){
+						$ingE=\App\CombineResult::where('folderId',$folder->id)->where('studentId',$allStudentId)
+						->where('courseId',$cik2)->get();
+						
+						$ingS=0;
+						$ingSD=0;
+						foreach ($ingE as $key => $value) {
+							$ingS=$ingS+$value->points;
+							$ingSD=$ingSD+$value->field1x;
+						}
+						$ing=$ingS/$ingSD;
+						$allResultsScores=$allResultsScores+$ing;
+					}
+					//end ing
+
+					array_push($scoresWithoutBaremo,$allResultsScores);
+				}
+
+
+				$uniqueScoresWithoutBaremo=array_unique($scoresWithoutBaremo);
+				sort($uniqueScoresWithoutBaremo);
+
+				$highestKeyWithoutBaremo=count($uniqueScoresWithoutBaremo)-1;
+				$percentagesWithoutBaremo=array();
+				foreach ($uniqueScoresWithoutBaremo as $oswbkey => $oswbvalue) {
+
+					if($highestKeyWithoutBaremo==0){
+								$perWithoutBaremo=100;
+					}
+					if($highestKeyWithoutBaremo!=0){
+						$perWithoutBaremo=$oswbkey/$highestKeyWithoutBaremo*100;
+					}
+					array_push($percentagesWithoutBaremo,$perWithoutBaremo);
+					if($oswbvalue==$studentAllTopicsScore){
+						
+						$withoutArray=array();
+						$withoutArray['rankName']="Rank. $folder->name sin baremo";
+						$withoutArray['percentage']=intval($perWithoutBaremo);
+						$withoutArray['points']=round($studentAllTopicsScore,2);
+						$withoutArray['totalPoints']=$studentAllTopicsScoreTotal;
+						$resultArray[$folderkey]['withoutBaremo']=$withoutArray;
+
+					}
+				}
+
+				//end only topic without baremo
+				//start only topic with baremo
+				$studentAllTopics2=\App\CombineResult::where('folderId',$folder->id)->where('studentId',$studentId)->where('courseId','!=',$cikO)->get();
+				if(!empty($studentAllTopics2)){
+					$studentAllTopicsScore2=0;
+					$studentAllTopicsScore2Total=0;
+					foreach ($studentAllTopics2 as $studentalltopickey => $value) {
+						if($value->courseId!=$cik&&$value->courseId!=$cik2){
+							$studentAllTopicsScore2=$studentAllTopicsScore2+$value->points;
+						}
+					}
+					if(!empty($weightedC)){
+						if($weightedC<0){
+                        	$weightedC=0;
+                    	}
+						$studentAllTopicsScore2=$studentAllTopicsScore2+$weightedC;
+					}
+					//start ing
+					$ingC2E=\App\CombineResult::where('folderId',$folder->id)->where('studentId',$studentId)
+					->where('courseId',$cik2)->exists();
+					if($ingC2E==true){
+						$ingC2=\App\CombineResult::where('folderId',$folder->id)->where('studentId',$studentId)
+					->where('courseId',$cik2)->get();
+						$divIng2=0;
+						$ingTotal2=0;
+						foreach ($ingC2 as $key => $ingV) {
+							$divIng2=$divIng2+$ingV->field1x;
+							$ingTotal2=$ingTotal2+$ingV->points;
+						}
+						$ingP2=$ingTotal2/$divIng2;
+						$studentAllTopicsScore2=$studentAllTopicsScore2+$ingP2;
+
+					}
+					//end ing
+					foreach ($studentAllTopics2 as $studentalltopickey => $value) {
+						if($value->courseId!=$cik&&$value->courseId!=$cik2){
+							$studentAllTopicsScore2Total=$studentAllTopicsScore2Total+$value->totalPoints;
+						}
+					}
+					if(isset($weightedC)){
+						$studentAllTopicsScore2Total=$studentAllTopicsScore2Total+15;
+					}
+					if($ingC2E==true){
+						$studentAllTopicsScore2Total=$studentAllTopicsScore2Total+20;	
+					}
+
+					if(!empty($student->baremo)){
+						$studentAllTopicsScore2=$studentAllTopicsScore2+$student->baremo;
+					}
+
+					$allStudents=\App\CombineResult::where('folderId',$folder->id)->select('studentId')->distinct()->get();
+					$scoresWithBaremo=array();
+					foreach ($allStudents as $askey => $allStudent) {
+						$studentB=\App\User::find($allStudent->studentId);
+						if(!empty($studentB)){
+							$allResults2=\App\CombineResult::where('folderId',$folder->id)
+							->where('studentId',$allStudent->studentId)->where('courseId','!=',$cikO)->get();
+							$allResultsScores2=0;
+							foreach ($allResults2 as $allresultkey => $allResult2) {
+								if($allResult2->courseId!=$cik&&$allResult2->courseId!=$cik2){
+									$allResultsScores2=$allResultsScores2+$allResult2->points;
+								}
+							}
+							if(!empty($studentB->baremo)){
+								$allResultsScores2=$allResultsScores2+$studentB->baremo;
+							}
+							//for wei
+							$allResultsP2=\App\CombineResult::where('folderId',$folder->id)->where('studentId',$allStudent->studentId)->where('courseId',$cik)->get();
+							if(!empty($allResultsP2)){
+								$allResultsScoresP2=0;
+								foreach ($allResultsP2 as $allresultkeyP2 => $allResultP2) {
+									$allResultsScoresP2=$allResultsScoresP2+$allResultP2->points;
+								}
+								
+								$fP2=$allResultsScoresP2-$m;
+
+								$wP2=15*$fP2/$s;
+								if($wP2<0){
+									$wP2=0;
+								}
+								
+								$allResultsScores2=$allResultsScores2+$wP2;
+								
+							}
+							//end forwei
+							//start ing
+							$ingE2E=\App\CombineResult::where('folderId',$folder->id)->where('studentId',$allStudent->studentId)
+							->where('courseId',$cik2)->exists();
+							if($ingE2E==true){
+								$ingE2=\App\CombineResult::where('folderId',$folder->id)->where('studentId',$allStudent->studentId)
+							->where('courseId',$cik2)->get();
+								$ingS2=0;
+								$ingSD2=0;
+								foreach ($ingE2 as $key => $value) {
+									$ingS2=$ingS2+$value->points;
+									$ingSD2=$ingSD2+$value->field1x;
+								}
+								$ing2=$ingS2/$ingSD2;
+								$allResultsScores2=$allResultsScores2+$ing2;
+							}
+							//end ing
+
+							array_push($scoresWithBaremo,$allResultsScores2);
+						}
+					}
+
+					$uniqueScoresWithBaremo=array_unique($scoresWithBaremo);
+					sort($uniqueScoresWithBaremo);
+					$highestKeyWithBaremo=count($uniqueScoresWithBaremo)-1;
+					$percentagesWithBaremo=array();
+
+					foreach ($uniqueScoresWithBaremo as $oswbkey => $oswbvalue) {
+						if($highestKeyWithBaremo==0){
+							$perWithBaremo=100;
+						}
+						if($highestKeyWithBaremo!=0){
+							$perWithBaremo=$oswbkey/$highestKeyWithBaremo*100;
+						}
+						array_push($percentagesWithBaremo,$perWithBaremo);
+						if($oswbvalue==$studentAllTopicsScore2){
+							
+							$withArray=array();
+							$withArray['rankName']="Rank. $folder->name con baremo";
+							$withArray['percentage']=intval($perWithBaremo);
+							$withArray['points']=round($studentAllTopicsScore2,2);
+							$withArray['totalPoints']=$studentAllTopicsScore2Total;
+							$resultArray[$folderkey]['withBaremo']=$withArray;
+
+
+						}
+					}
+				}
+			}
+
+			//end only topic with baremo
+
+		}
+		return response()->json(['status'=>'Successfull','data'=>$resultArray]);
+
+	}
+	
+    public function geT(Request $request){
+    	
+    	$folders=\App\Folder::where('type','exams')->get();
+    	$courses=\App\Course::all();
+    	foreach ($folders as $keyF => $folder) {
+    		foreach ($courses as $keyC => $course) {
+    			$courseName=$course->name;
+    			$exams=\App\Exam::where('courseId',$course->id)->get();
+    			$examIds=array();
+    			foreach ($exams as $keyE => $exam) {
+    				array_push($examIds,$exam->id);
+    			}
+    			$uniqueStudentsExams=\App\StudentExamRecord::whereIn('examId',$examIds)->select('studentId')->distinct()->get();
+    			$studentIds=array();
+    			foreach ($uniqueStudentsExams as $keyU => $use) {
+    				array_push($studentIds,$use->studentId);
+    			}
+    			$marks=array();
+    			foreach ($studentIds as $keyS => $sId) {
+    				$studentExamRecords=\App\StudentExamRecord::whereIn('examId',$examIds)->where('studentId',$sId)->where('isCurrent','yes')->get();
+    				$mCount=0;
+    				foreach ($studentExamRecord as $keySER => $ser) {
+    					$mCount=$mCount+$ser->score;
+    				}
+    				array_push($marks,$mCount);
+    			}
+    		}
+    	}
+
+    }
+
+    public function getCourseVerticalRanking(Request $request){
+		$studentId=$request->json('studentId');
+		//$studentId=4;
+		$ue=\App\User::where('id',$studentId)->exists();
+        if($ue==false){
+            return response()->json(['status'=>'Unsuccessfull','message'=>'User not found']);
+        }
+        $u=\App\User::find($studentId);
+        if($u->field1x=="Bloquear"){
+            return response()->json(['status'=>'Unsuccessfull','message'=>'User not found']);
+        }
+		$student=\App\User::find($studentId);
+		$studentType=$student->type;
+		$folders=\App\Folder::where('type','exams')->where('studentType',$studentType)->get();
+		$fa=array();
+		foreach ($folders as $fkey => $fvalue) {
+			array_push($fa,$fvalue->id);
+		}
+		$coursesArray=array();
+		$eex=\App\CombineResult::where('studentId',$studentId)->whereIn('folderId',$fa)->exists();
+		if($eex==false){
+			$cc=array();
+			$cc['rankName']="Curso completado";
+			$cc['percentage']=null;
+			$cc['points']=null;
+			//$resultArray['completado']=$cc;
+			array_push($coursesArray,$cc);
+		}
+		if($eex==true){
+			$cs=\App\CombineResult::where('studentId',$studentId)->whereIn('folderId',$fa)->get();
+			$to=0;
+			foreach ($cs as $k => $v) {
+				$to=$to+$v->field1x;
+			}
+			$pt=$to*0.3135;
+			
+			$cc=array();
+			$cc['rankName']="Curso completado";
+			$cc['percentage']=number_format($pt,2);
+			$cc['points']=null;
+			//$resultArray['completado']=$cc;
+			array_push($coursesArray,$cc);
+		}
+		$courses=\App\Course::all();
+
+		//now h
+		//for finding max
+		$courseKnow=\App\Course::where('name','Psicotécnicos')->first();
+		$cik=$courseKnow->id;
+		$courseKnowO=\App\Course::where('name','Ortografía')->first();
+				$cikO=$courseKnowO->id;
+		$m=null;
+		$s=null;
+		$allStudents=\App\CombineResult::where('courseId',$cik)->whereIn('folderId',$fa)->select('studentId')->distinct()->get();
+		if(!empty($allStudents)){
+
+		
+			$allStudentsS=array();
+		
+			
+			foreach($allStudents as $askey => $asValue){
+				$mm1=\App\User::find($asValue->studentId);
+				if(!empty($mm1)){
+					$ex1=\App\CombineResult::where('studentId',$asValue->studentId)->where('courseId',$cik)->whereIn('folderId',$fa)->exists();
+					
+					if($ex1==true){
+						$individualCombineResults=\App\CombineResult::where('studentId',$asValue->studentId)->where('courseId',$cik)->whereIn('folderId',$fa)->get();
+
+						$individualCombineResultsScore=0;
+						foreach($individualCombineResults as $icrkey => $icrValue){
+							$individualCombineResultsScore=$individualCombineResultsScore+$icrValue->points;
+
+						}
+						
+						array_push($allStudentsS,(int)$individualCombineResultsScore);
+
+					}
+				}
+			}//end foreach
+			if(!empty($allStudentsS)){
+				$max=max($allStudentsS);
+				//$u=array_unique($allStudentsS);
+				$cot=count($allStudentsS);
+				$tfp=intval(round(0.25*$cot));
+
+				if($tfp>=1){
+					sort($allStudentsS);
+					$m=$allStudentsS[$tfp-1];
+
+				}
+				if($tfp<1){
+					$m=0;
+				}
+				$s=$max-$m;
+			}
+		}
+					//end finding max
+		//end now h
+		
+		foreach($courses as $coursekey=>$value){
+			$courseName=$value->name;
+			if($courseName=="Psicotécnicos"){
+				$exists=\App\CombineResult::where('studentId',$studentId)->where('courseId',$value->id)->whereIn('folderId',$fa)->exists();
+				if($exists==false){
+					$courseA=array();
+					$courseA['rankName']="Ranking global de $value->name";
+					$courseA['percentage']=null;
+					$courseA['points']=null;
+					array_push($coursesArray,$courseA);	
+				}
+				if($exists==true){
+					//it was here
+					$studentCombineResults=\App\CombineResult::where('studentId',$studentId)->where('courseId',$value->id)->whereIn('folderId',$fa)->get();
+					$studentCombineResultsScore=0;
+					foreach($studentCombineResults as $key=>$val){
+						$studentCombineResultsScore=$studentCombineResultsScore+$val->points;
+					}//end foreach
+					$f=$studentCombineResultsScore-$m;
+
+					$weightedC=15*$f/$s;
+
+					$allStudents=\App\CombineResult::where('courseId',$value->id)->whereIn('folderId',$fa)->select('studentId')->distinct()->get();
+					
+					$allStudentsScores=array();
+				
+					
+					foreach($allStudents as $askey => $asValue){
+						$mm1=\App\User::find($asValue->studentId);
+						if(!empty($mm1)){
+							$ex1=\App\CombineResult::where('studentId',$asValue->studentId)->where('courseId',$value->id)->whereIn('folderId',$fa)->exists();
+							
+							if($ex1==true){
+								$individualCombineResults=\App\CombineResult::where('studentId',$asValue->studentId)->where('courseId',$value->id)->whereIn('folderId',$fa)->get();
+
+								$individualCombineResultsScore=0;
+								foreach($individualCombineResults as $icrkey => $icrValue){
+									$individualCombineResultsScore=$individualCombineResultsScore+$icrValue->points;
+
+								}
+								$f=$individualCombineResultsScore-$m;
+								$weightedA=15*$f/$s;
+								
+								array_push($allStudentsScores,$weightedA);
+
+							}
+						}
+					}//end foreach
+					
+					$allStudentsScoresUnique=array_unique($allStudentsScores);
+					sort($allStudentsScoresUnique);
+					$highestKey1=count($allStudentsScoresUnique)-1;
+					$percentagesArray=array();
+					foreach($allStudentsScoresUnique as $alsukey => $alsuValue){
+						if($highestKey1==0){
+							$per=100;
+						}
+						if($highestKey1!=0){
+							$per=$alsukey/$highestKey1*100;
+						}
+						array_push($percentagesArray,$per);
+						if($alsuValue==$weightedC){
+							
+							$courseA=array();
+							$courseA['rankName']="Ranking global de $value->name";
+							$courseA['percentage']=intval($per);
+							if($weightedC<0){
+                                    $courseA['points']=0;
+                                }
+                                if($weightedC>=0){
+                                $courseA['points']=round($weightedC,2);
+                            }
+							array_push($coursesArray,$courseA);
+
+						}
+					}//end foreach
+				}
+
+			}//end psicotecnicos
+			if($courseName!="Psicotécnicos"){
+				$exists=\App\CombineResult::where('studentId',$studentId)->where('courseId',$value->id)->whereIn('folderId',$fa)->exists();
+				if($exists==false){
+					$courseA=array();
+					$courseA['rankName']="Ranking global de $value->name";
+					$courseA['percentage']=null;
+					$courseA['points']=null;
+					array_push($coursesArray,$courseA);
+					
+				}
+
+				if($exists==true){
+					$studentCombineResults=\App\CombineResult::where('studentId',$studentId)->where('courseId',$value->id)->whereIn('folderId',$fa)->get();
+					$studentCombineResultsScore=0;
+					foreach($studentCombineResults as $key=>$val){
+						$studentCombineResultsScore=$studentCombineResultsScore+$val->points;
+					}//end foreach
+					$allStudents=\App\CombineResult::where('courseId',$value->id)->whereIn('folderId',$fa)->select('studentId')->distinct()->get();
+					
+					$allStudentsScores=array();
+				
+					
+					foreach($allStudents as $askey => $asValue){
+						$mm1=\App\User::find($asValue->studentId);
+						if(!empty($mm1)){
+							$ex1=\App\CombineResult::where('studentId',$asValue->studentId)->where('courseId',$value->id)->whereIn('folderId',$fa)->exists();
+							
+							if($ex1==true){
+								$individualCombineResults=\App\CombineResult::where('studentId',$asValue->studentId)->where('courseId',$value->id)->whereIn('folderId',$fa)->get();
+
+								$individualCombineResultsScore=0;
+								foreach($individualCombineResults as $icrkey => $icrValue){
+									$individualCombineResultsScore=$individualCombineResultsScore+$icrValue->points;
+
+								}
+								
+								array_push($allStudentsScores,$individualCombineResultsScore);
+
+							}
+						}
+					}//end foreach
+					
+					$allStudentsScoresUnique=array_unique($allStudentsScores);
+					sort($allStudentsScoresUnique);
+					$highestKey1=count($allStudentsScoresUnique)-1;
+					$percentagesArray=array();
+					foreach($allStudentsScoresUnique as $alsukey => $alsuValue){
+						if($highestKey1==0){
+							$per=100;
+						}
+						if($highestKey1!=0){
+							$per=$alsukey/$highestKey1*100;
+						}
+						array_push($percentagesArray,$per);
+						if($alsuValue==$studentCombineResultsScore){
+							
+							$courseA=array();
+							$courseA['rankName']="Ranking global de $value->name";
+							$courseA['percentage']=intval($per);
+
+							if($value->name=="Inglés"){
+
+								$divC=\App\CombineResult::where('courseId',$value->id)->where('studentId',$studentId)->whereIn('folderId',$fa)->get();
+								$div=0;
+								foreach ($divC as $key => $valueF) {
+									$div=$valueF->field1x;
+								}
+								
+								$courseA['points']=round($studentCombineResultsScore,2)/$div;
+
+							}
+							if($value->name!="Inglés"){
+								$courseA['points']=round($studentCombineResultsScore,2);
+								
+
+							}
+
+
+							array_push($coursesArray,$courseA);
+
+						}
+					}//end foreach
+				}//end exist true
+			}//end not psicotecnicos
+		}
+
+
+		//end course foreach
+		//$resultArray['courses']=$coursesArray;
+		$courseKnow=\App\Course::where('name','Psicotécnicos')->first();
+		$cik=$courseKnow->id;
+		$courseKnow2=\App\Course::where('name','Inglés')->first();
+		$cik2=$courseKnow2->id;
+
+		$existsGlobal=\App\CombineResult::where('studentId',$studentId)->whereIn('folderId',$fa)->where('courseId','!=',$cikO)->exists();
+		if($existsGlobal==false){
+			
+			$withoutArray=array();
+			$withoutArray['rankName']="Ranking global (sin baremo)";
+			$withoutArray['percentage']=null;
+			$withoutArray['points']=null;
+			array_push($coursesArray,$withoutArray);
+			//$resultArray['withoutBaremo']=$withoutArray;
+		}
+		if($existsGlobal==true){
+			$studentCombineResultsGlobal=\App\CombineResult::where('studentId',$studentId)->whereIn('folderId',$fa)->where('courseId','!=',$cikO)->get();
+
+			$studentCombineResultsScoreGlobal=0;
+			foreach($studentCombineResultsGlobal as $key => $value){
+				if($value->courseId!=$cik&&$value->courseId!=$cik2){
+					$studentCombineResultsScoreGlobal=$studentCombineResultsScoreGlobal+$value->points;
+				}
+			}//end foreach
+			if(!empty($weightedC)){
+				if($weightedC<0){
+                    $weightedC=0;
+                }
+				$studentCombineResultsScoreGlobal=$studentCombineResultsScoreGlobal+$weightedC;
+			}
+			//start ing
+			$ingCE=\App\CombineResult::where('studentId',$studentId)
+			->where('courseId',$cik2)->whereIn('folderId',$fa)->exists();
+			if($ingCE==true){
+				$ingC=\App\CombineResult::where('studentId',$studentId)
+			->where('courseId',$cik2)->whereIn('folderId',$fa)->get();
+				$divIng=0;
+				$ingTotal=0;
+				foreach ($ingC as $key => $ingV) {
+					$divIng=$divIng+$ingV->field1x;
+					$ingTotal=$ingTotal+$ingV->points;
+				}
+				$ingP=$ingTotal/$divIng;
+				$studentCombineResultsScoreGlobal=$studentCombineResultsScoreGlobal+$ingP;
+
+			}
+			//end ing
+
+			$allStudentsGlobal=\App\CombineResult::whereIn('folderId',$fa)->select('studentId')->distinct()->get();
+			$allStudentsScoresGlobal=array();
+			
+			foreach($allStudentsGlobal as $key2 => $value2){
+				$mm3=\App\User::find($value2->studentId);
+				if(!empty($mm3)){
+					$ex2=\App\CombineResult::where('studentId',$value2->studentId)->whereIn('folderId',$fa)->where('courseId','!=',$cikO)->exists();
+
+					if($ex2==true){
+						$individualCombineResultsGlobal=\App\CombineResult::where('studentId',$value2->studentId)->whereIn('folderId',$fa)->where('courseId','!=',$cikO)->get();
+
+						$individualCombineResultsScoreGlobal=0;
+						foreach($individualCombineResultsGlobal as $icrgkey => $icrgValue){		
+							if($icrgValue->courseId!=$cik&&$icrgValue->courseId!=$cik2){				
+								$individualCombineResultsScoreGlobal=$individualCombineResultsScoreGlobal+$icrgValue->points;
+							}
+						}
+
+						//for wei
+						$allResultsP=\App\CombineResult::whereIn('folderId',$fa)->where('studentId',$value2->studentId)->where('courseId',$cik)->get();
+						
+						if(!empty($allResultsP)){
+							$allResultsScoresP=0;
+							foreach ($allResultsP as $allresultkeyP => $allResultP) {
+								$allResultsScoresP=$allResultsScoresP+$allResultP->points;
+							}
+
+							$fP=$allResultsScoresP-$m;
+							$wP=15*$fP/$s;
+							if($wP<0){
+								$wP=0;
+							}
+							$individualCombineResultsScoreGlobal=$individualCombineResultsScoreGlobal+$wP;
+							
+						}
+
+						//end forwei
+						$ingEE=\App\CombineResult::whereIn('folderId',$fa)->where('studentId',$value2->studentId)
+						->where('courseId',$cik2)->exists();
+						if($ingEE==true){
+							$ingE=\App\CombineResult::whereIn('folderId',$fa)->where('studentId',$value2->studentId)
+						->where('courseId',$cik2)->get();
+							$ingS=0;
+							$ingSD=0;
+							foreach ($ingE as $key => $value) {
+								$ingS=$ingS+$value->points;
+								$ingSD=$ingSD+$value->field1x;
+							}
+							$ing=$ingS/$ingSD;
+							$individualCombineResultsScoreGlobal=$individualCombineResultsScoreGlobal+$ing;
+						}
+						//end ing
+						array_push($allStudentsScoresGlobal,$individualCombineResultsScoreGlobal);
+
+					}
+				}
+	
+			}//end foreach
+			
+					
+			$allStudentsScoresUniqueGlobal=array_unique($allStudentsScoresGlobal);
+
+			sort($allStudentsScoresUniqueGlobal);
+			$highestKey2=count($allStudentsScoresUniqueGlobal)-1;
+			$percentagesArrayGlobal=array();
+			foreach($allStudentsScoresUniqueGlobal as $alsugkey => $alsugValue){
+				if($highestKey2==0){
+					$per2=100;
+				}
+				if($highestKey2!=0){
+					$per2=$alsugkey/$highestKey2*100;
+				}
+				array_push($percentagesArrayGlobal,$per2);
+				if($alsugValue==$studentCombineResultsScoreGlobal){
+					
+					$withoutArray=array();
+					$withoutArray['rankName']="Ranking global (sin baremo)";
+					$withoutArray['percentage']=intval($per2);
+					$withoutArray['points']=round($studentCombineResultsScoreGlobal,2);
+					//$resultArray['withoutBaremo']=$withoutArray;
+					array_push($coursesArray,$withoutArray);
+				}
+			}//end foreach
+		}//end exist global if
+
+
+
+		$existsGlobalBaremo=\App\CombineResult::where('studentId',$studentId)->whereIn('folderId',$fa)->exists();
+		if($existsGlobalBaremo==false){
+			
+			$withArray=array();
+			$withArray['rankName']="Ranking global (con baremo)";
+			$withArray['percentage']=null;
+			$withArray['points']=null;
+			//$resultArray['withBaremo']=$withArray;
+			array_push($coursesArray,$withArray);
+		}
+		if($existsGlobalBaremo==true){
+
+			$studentCombineResultsGlobalBaremo=\App\CombineResult::where('studentId',$studentId)->whereIn('folderId',$fa)->where('courseId','!=',$cikO)->get();
+			$studentCombineResultsScoreGlobalBaremo=0;
+			foreach($studentCombineResultsGlobalBaremo as $bkey => $bvalue){
+				if($bvalue->courseId!=$cik&&$bvalue->courseId!=$cik2){
+					$studentCombineResultsScoreGlobalBaremo=$studentCombineResultsScoreGlobalBaremo+$bvalue->points;
+				}
+			}//end foreach
+			if(!empty($weightedC)){
+				if($weightedC<0){
+                   $weightedC=0;
+                }
+				$studentCombineResultsScoreGlobalBaremo=$studentCombineResultsScoreGlobalBaremo+$weightedC;
+			}
+			//start ing
+			$ingC2E=\App\CombineResult::whereIn('folderId',$fa)->where('studentId',$studentId)
+			->where('courseId',$cik2)->exists();
+			if($ingC2E==true){
+				$ingC2=\App\CombineResult::whereIn('folderId',$fa)->where('studentId',$studentId)
+			->where('courseId',$cik2)->get();
+				$divIng2=0;
+				$ingTotal2=0;
+				foreach ($ingC2 as $key => $ingV) {
+					$divIng2=$divIng2+$ingV->field1x;
+					$ingTotal2=$ingTotal2+$ingV->points;
+				}
+				$ingP2=$ingTotal2/$divIng2;
+				$studentCombineResultsScoreGlobalBaremo=$studentCombineResultsScoreGlobalBaremo+$ingP2;
+
+			}
+
+			//end ing
+			$studentCombineResultsScoreGlobalBaremo=$studentCombineResultsScoreGlobalBaremo+$student->baremo;
+			$allStudentsGlobalBaremo=\App\CombineResult::whereIn('folderId',$fa)->select('studentId')->distinct()->get();
+			$allStudentsScoresGlobalBaremo=array();
+			foreach($allStudentsGlobalBaremo as $key3 => $value3){
+				$m44=\App\User::find($value3->studentId);
+				if(!empty($m44)){
+					$ex3=\App\CombineResult::where('studentId',$value3->studentId)->whereIn('folderId',$fa)->where('courseId','!=',$cikO)->exists();
+					$sb=\App\User::find($value3->studentId);
+					if($ex3==true){
+						$individualCombineResultsGlobalBaremo=\App\CombineResult::where('studentId',$value3->studentId)->whereIn('folderId',$fa)->where('courseId','!=',$cikO)->get();
+						$individualCombineResultsScoreGlobalBaremo=0;
+						foreach($individualCombineResultsGlobalBaremo as $icrgbkey => $icrgbValue){
+							if($icrgbValue->courseId!=$cik&&$icrgbValue->courseId!=$cik2){						
+								$individualCombineResultsScoreGlobalBaremo=$individualCombineResultsScoreGlobalBaremo+$icrgbValue->points;
+							}
+						}
+
+						$individualCombineResultsScoreGlobalBaremo=$individualCombineResultsScoreGlobalBaremo+$sb->baremo;
+						//for wei
+							$allResultsP2=\App\CombineResult::whereIn('folderId',$fa)->where('studentId',$value3->studentId)->where('courseId',$cik)->get();
+							if(!empty($allResultsP2)){
+
+								$allResultsScoresP2=0;
+								foreach ($allResultsP2 as $allresultkeyP2 => $allResultP2) {
+									$allResultsScoresP2=$allResultsScoresP2+$allResultP2->points;
+								}
+								
+								$fP2=$allResultsScoresP2-$m;
+
+								$wP2=15*$fP2/$s;
+								if($wP2<0){
+									$wP2=0;
+								}
+								
+								$individualCombineResultsScoreGlobalBaremo=$individualCombineResultsScoreGlobalBaremo+$wP2;
+								
+							}
+							//end forwei
+							$ingE2E=\App\CombineResult::whereIn('folderId',$fa)->where('studentId',$value3->studentId)
+							->where('courseId',$cik2)->exists();
+							if($ingE2E==true){
+
+								$ingE2=\App\CombineResult::whereIn('folderId',$fa)->where('studentId',$value3->studentId)
+							->where('courseId',$cik2)->get();
+								$ingS2=0;
+								$ingSD2=0;
+								foreach ($ingE2 as $key => $value) {
+									$ingS2=$ingS2+$value->points;
+									$ingSD2=$ingSD2+$value->field1x;
+								}
+								$ing2=$ingS2/$ingSD2;
+
+								$individualCombineResultsScoreGlobalBaremo=$individualCombineResultsScoreGlobalBaremo+$ing2;
+							}
+							//end ing
+
+						array_push($allStudentsScoresGlobalBaremo,$individualCombineResultsScoreGlobalBaremo);
+					}
+				}
+			}//end foreach
+			$allStudentsScoresUniqueGlobalBaremo=array_unique($allStudentsScoresGlobalBaremo);
+			sort($allStudentsScoresUniqueGlobalBaremo);
+			$highestKey3=count($allStudentsScoresUniqueGlobalBaremo)-1;
+			$percentagesArrayGlobalBaremo=array();
+			
+			foreach($allStudentsScoresUniqueGlobalBaremo as $alsugkey => $alsugValue){
+				if($highestKey3==0){
+					$per3=100;
+				}
+				if($highestKey3!=0){
+					$per3=$alsugkey/$highestKey3*100;
+				}
+				array_push($percentagesArrayGlobalBaremo,$per3);
+				if($alsugValue==$studentCombineResultsScoreGlobalBaremo){
+					$withArray=array();
+					$withArray['rankName']="Ranking global (con baremo)";
+					$withArray['percentage']=intval($per3);
+					$withArray['points']=round($studentCombineResultsScoreGlobalBaremo,2);
+					//$resultArray['withBaremo']=$withArray;
+					array_push($coursesArray,$withArray);
+				}
+			}//end foreach
+		}//end exist GlobalBaremo if
+		$resultArray['courses']=$coursesArray;
+		$regex=\App\Register::where('userId',$student->id)->exists();
+	    			if($regex==true){
+	    			$reg=\App\Register::where('userId',$student->id)->first();
+	    			$userName=$reg->surname;
+
+	    			}
+	    			if(empty($userName)){
+	    				$userName=null;
+	    			}
+	    			$con=\App\User::where('type',$student->type)->count();
+
+		return response()->json(['status'=>'Successfull','data'=>$resultArray,'username'=>$userName,'numberOfStudents'=>$con]);
+
+	}
+
+	public function getTopicCourseHorizontalRanking(Request $request){
+		$studentId=$request->json('studentId');
+		$student=\App\User::find($studentId);
+		$folders=\App\Folder::where('type','exams')->get();
+		$courseOne=array();
+		array_push($courseOne,1);
+		$courseTwo=array();
+		array_push($courseTwo,2);
+		$courseThree=array();
+		array_push($courseThree,3);
+		$courseFour=array();
+		array_push($courseFour,4);
+		$without=array();
+		array_push($without,5);
+		$with=array();
+		array_push($with,6);
+
+	
+		$resultArray=array();
+		foreach ($folders as $folderkey => $folder) {
+			//course with topic
+			$courses=\App\Course::all();
+			$coursesA=array();
+
+			foreach ($courses as $coursekey => $course) {
+				$studentCombineResult=\App\CombineResult::where('folderId',$folder->id)->where('courseId',$course->id)
+				->where('studentId',$studentId)->first();
+				if(empty($studentCombineResult)){
+					$course->setAttribute('rankName',"Ranking de $course->name");
+					$course->setAttribute('percentage','null');
+					$course->setAttribute('points','null');
+					$course->setAttribute('totalPoints','null');
+					if($course->id==1){
+								array_push($courseOne,null);
+					}
+					if($course->id==2){
+								array_push($courseTwo,null);
+					}
+					if($course->id==3){
+						array_push($courseThree,null);
+					}
+					if($course->id==4){
+						array_push($courseFour,null);
+					}
+				}
+				if(!empty($studentCombineResult)){
+					$combineResults=\App\CombineResult::where('folderId',$folder->id)->where('courseId',$course->id)
+						->orderBy('points','asc')->get();		
+					$allScores=array();
+					foreach ($combineResults as $combinekey => $combine) {
+						array_push($allScores,$combine->points);
+					}
+					$uniqueScores=array_unique($allScores);
+					sort($uniqueScores);
+					$highestKey=count($uniqueScores)-1;
+					$percentages=array();
+					foreach ($uniqueScores as $uniquekey => $unique) {
+						
+						if($highestKey==0){
+							$per=100;
+						}
+						if($highestKey!=0){
+							$per=$uniquekey/$highestKey*100;
+						}
+						
+						array_push($percentages,$per);
+
+						if($unique==$studentCombineResult->points){
+
+							$course->setAttribute('rankName',"Ranking de $course->name");
+							$course->setAttribute('percentage',$per);
+							$course->setAttribute('points',$unique);
+							$course->setAttribute('totalPoints',$studentCombineResult->totalPoints);
+							if($course->id==1){
+								array_push($courseOne,$per);
+							}
+							if($course->id==2){
+								array_push($courseTwo,$per);
+							}
+							if($course->id==3){
+								array_push($courseThree,$per);
+							}
+							if($course->id==4){
+								array_push($courseFour,$per);
+							}
+							
+						}
+					}
+				}
+			}
+			$cA=$courses->toArray();
+			$resultArray[$folderkey]['folderName']=$folder->name;
+			$resultArray[$folderkey]['courses']=$cA;	
+			//end course with topic
+
+
+			//start only topic without baremo
+			$exists1=\App\CombineResult::where('folderId',$folder->id)->where('studentId',$studentId)->exists();
+			if($exists1==false){
+				$withoutArray=array();
+				$withoutArray['rankName']="Rank. $folder->name sin baremo";
+				$withoutArray['percentage']=null;
+				$withoutArray['points']=null;
+				$withoutArray['totalPoints']=null;
+				$resultArray[$folderkey]['withoutBaremo']=$withoutArray;
+				array_push($without,null);
+
+				$withArray=array();
+				$withArray['rankName']="Rank. $folder->name con baremo";
+				$withArray['percentage']=null;
+				$withArray['points']=null;
+				$withArray['totalPoints']=null;
+				$resultArray[$folderkey]['withBaremo']=$withArray;
+				array_push($with,null);
+				
+			}
+			if($exists1==true){
+				$studentAllTopics=\App\CombineResult::where('folderId',$folder->id)->where('studentId',$studentId)->get();
+				$studentAllTopicsScore=0;
+				$studentAllTopicsScoreTotal=0;
+				foreach ($studentAllTopics as $studentalltopickey => $value) {
+					$studentAllTopicsScore=$studentAllTopicsScore+$value->points;
+				}
+				foreach ($studentAllTopics as $studentalltopickey => $value) {
+					$studentAllTopicsScoreTotal=$studentAllTopicsScoreTotal+$value->totalPoints;
+				}
+
+				$allStudents=\App\CombineResult::where('folderId',$folder->id)->select('studentId')->distinct()->get();
+
+				$allStudentsIds=array();
+				foreach ($allStudents as $askey => $allStudent) {
+					array_push($allStudentsIds,$allStudent->studentId);
+				}
+
+				$scoresWithoutBaremo=array();
+				foreach ($allStudentsIds as $asidkey => $allStudentId) {
+					$allResults=\App\CombineResult::where('folderId',$folder->id)->where('studentId',$allStudentId)->get();
+					$allResultsScores=0;
+					foreach ($allResults as $allresultkey => $allResult) {
+						$allResultsScores=$allResultsScores+$allResult->points;
+					}
+
+					array_push($scoresWithoutBaremo,$allResultsScores);
+				}
+
+				$uniqueScoresWithoutBaremo=array_unique($scoresWithoutBaremo);
+				sort($uniqueScoresWithoutBaremo);
+
+				$highestKeyWithoutBaremo=count($uniqueScoresWithoutBaremo)-1;
+				$percentagesWithoutBaremo=array();
+				foreach ($uniqueScoresWithoutBaremo as $oswbkey => $oswbvalue) {
+
+					if($highestKeyWithoutBaremo==0){
+								$perWithoutBaremo=100;
+					}
+					if($highestKeyWithoutBaremo!=0){
+						$perWithoutBaremo=$oswbkey/$highestKeyWithoutBaremo*100;
+					}
+					array_push($percentagesWithoutBaremo,$perWithoutBaremo);
+					if($oswbvalue==$studentAllTopicsScore){
+						
+						$withoutArray=array();
+						$withoutArray['rankName']="Rank. $folder->name sin baremo";
+						$withoutArray['percentage']=$perWithoutBaremo;
+						$withoutArray['points']=$studentAllTopicsScore;
+						$withoutArray['totalPoints']=$studentAllTopicsScoreTotal;
+						$resultArray[$folderkey]['withoutBaremo']=$withoutArray;
+						array_push($without,$perWithoutBaremo);
+
+					}
+				}
+				//end only topic without baremo
+				//start only topic with baremo
+				$studentAllTopics2=\App\CombineResult::where('folderId',$folder->id)->where('studentId',$studentId)->get();
+				if(!empty($studentAllTopics2)){
+					$studentAllTopicsScore2=0;
+					$studentAllTopicsScore2Total=0;
+					foreach ($studentAllTopics2 as $studentalltopickey => $value) {
+						$studentAllTopicsScore2=$studentAllTopicsScore2+$value->points;
+					}
+					foreach ($studentAllTopics2 as $studentalltopickey => $value) {
+						$studentAllTopicsScore2Total=$studentAllTopicsScore2Total+$value->totalPoints;
+					}
+					$studentAllTopicsScore2=$studentAllTopicsScore2+$student->baremo;
+					$allStudents=\App\CombineResult::where('folderId',$folder->id)->select('studentId')->distinct()->get();
+					$scoresWithBaremo=array();
+					foreach ($allStudents as $askey => $allStudent) {
+						$studentB=\App\User::find($allStudent->studentId);
+						$allResults2=\App\CombineResult::where('folderId',$folder->id)
+						->where('studentId',$allStudent->studentId)->get();
+						$allResultsScores2=0;
+						foreach ($allResults2 as $allresultkey => $allResult2) {
+							$allResultsScores2=$allResultsScores2+$allResult2->points;
+						}
+						$allResultsScores2=$allResultsScores2+$studentB->baremo;
+						array_push($scoresWithBaremo,$allResultsScores2);
+					}
+					$uniqueScoresWithBaremo=array_unique($scoresWithBaremo);
+					sort($uniqueScoresWithBaremo);
+					$highestKeyWithBaremo=count($uniqueScoresWithBaremo)-1;
+					$percentagesWithBaremo=array();
+					foreach ($uniqueScoresWithBaremo as $oswbkey => $oswbvalue) {
+						if($highestKeyWithBaremo==0){
+							$perWithBaremo=100;
+						}
+						if($highestKeyWithBaremo!=0){
+							$perWithBaremo=$oswbkey/$highestKeyWithBaremo*100;
+						}
+						array_push($percentagesWithBaremo,$perWithBaremo);
+						if($oswbvalue==$studentAllTopicsScore2){
+							
+							$withArray=array();
+							$withArray['rankName']="Rank. $folder->name con baremo";
+							$withArray['percentage']=$perWithBaremo;
+							$withArray['points']=$studentAllTopicsScore2;
+							$withArray['totalPoints']=$studentAllTopicsScore2Total;
+							$resultArray[$folderkey]['withBaremo']=$withArray;
+							array_push($with,$perWithBaremo);
+
+
+						}
+					}
+				}
+			}
+
+			//end only topic with baremo
+
+		}
+		$data=array();
+		array_push($data,$courseOne);
+		array_push($data,$courseTwo);
+		array_push($data,$courseThree);
+		array_push($data,$courseFour);
+		array_push($data,$without);
+		array_push($data,$with);
+		return response()->json(['data'=>$data,'status'=>'Successfull']);
+
+	}
+
+	public function getTopicCourseHorizontalRanking2(Request $request){
+		$studentId=$request->json('studentId');
+		$student=\App\User::find($studentId);
+		$folders=\App\Folder::where('type','exams')->get();
+		
+		$resultArray=array();
+		$mainData=array();
+		$firstArray=array();
+		array_push($firstArray,'Conocimientos');
+		array_push($firstArray,'Inglés');
+		array_push($firstArray,'Psicotécnicos');
+		array_push($firstArray,'Ortografía');
+		array_push($firstArray,'Global sin baremo');
+		array_push($firstArray,'Global con baremo');
+		array_push($mainData,$firstArray);
+		foreach ($folders as $folderkey => $folder) {
+			$data=array();
+			array_push($data,$folderkey+1);
+			//course with topic
+			$courses=\App\Course::all();
+			$coursesA=array();
+
+			foreach ($courses as $coursekey => $course) {
+				$studentCombineResult=\App\CombineResult::where('folderId',$folder->id)->where('courseId',$course->id)
+				->where('studentId',$studentId)->first();
+				if(empty($studentCombineResult)){
+					$course->setAttribute('rankName',"Ranking de $course->name");
+					$course->setAttribute('percentage','null');
+					$course->setAttribute('points','null');
+					$course->setAttribute('totalPoints','null');
+					array_push($data,null);
+					
+				}
+				if(!empty($studentCombineResult)){
+					$combineResults=\App\CombineResult::where('folderId',$folder->id)->where('courseId',$course->id)
+						->orderBy('points','asc')->get();		
+					$allScores=array();
+					foreach ($combineResults as $combinekey => $combine) {
+						array_push($allScores,$combine->points);
+					}
+					$uniqueScores=array_unique($allScores);
+					sort($uniqueScores);
+					$highestKey=count($uniqueScores)-1;
+					$percentages=array();
+					foreach ($uniqueScores as $uniquekey => $unique) {
+						
+						if($highestKey==0){
+							$per=100;
+						}
+						if($highestKey!=0){
+							$per=$uniquekey/$highestKey*100;
+						}
+						
+						array_push($percentages,$per);
+
+						if($unique==$studentCombineResult->points){
+
+							$course->setAttribute('rankName',"Ranking de $course->name");
+							$course->setAttribute('percentage',$per);
+							$course->setAttribute('points',$unique);
+							$course->setAttribute('totalPoints',$studentCombineResult->totalPoints);
+							array_push($data,$per);
+							
+							
+						}
+					}
+				}
+			}
+			$cA=$courses->toArray();
+			$resultArray[$folderkey]['folderName']=$folder->name;
+			$resultArray[$folderkey]['courses']=$cA;	
+			//end course with topic
+
+
+			//start only topic without baremo
+			$exists1=\App\CombineResult::where('folderId',$folder->id)->where('studentId',$studentId)->exists();
+			if($exists1==false){
+				$withoutArray=array();
+				$withoutArray['rankName']="Rank. $folder->name sin baremo";
+				$withoutArray['percentage']=null;
+				$withoutArray['points']=null;
+				$withoutArray['totalPoints']=null;
+				$resultArray[$folderkey]['withoutBaremo']=$withoutArray;
+				array_push($data,null);
+				
+
+				$withArray=array();
+				$withArray['rankName']="Rank. $folder->name con baremo";
+				$withArray['percentage']=null;
+				$withArray['points']=null;
+				$withArray['totalPoints']=null;
+				$resultArray[$folderkey]['withBaremo']=$withArray;
+				array_push($data,null);
+				
+				
+			}
+			if($exists1==true){
+				$studentAllTopics=\App\CombineResult::where('folderId',$folder->id)->where('studentId',$studentId)->get();
+				$studentAllTopicsScore=0;
+				$studentAllTopicsScoreTotal=0;
+				foreach ($studentAllTopics as $studentalltopickey => $value) {
+					$studentAllTopicsScore=$studentAllTopicsScore+$value->points;
+				}
+				foreach ($studentAllTopics as $studentalltopickey => $value) {
+					$studentAllTopicsScoreTotal=$studentAllTopicsScoreTotal+$value->totalPoints;
+				}
+
+				$allStudents=\App\CombineResult::where('folderId',$folder->id)->select('studentId')->distinct()->get();
+
+				$allStudentsIds=array();
+				foreach ($allStudents as $askey => $allStudent) {
+					array_push($allStudentsIds,$allStudent->studentId);
+				}
+
+				$scoresWithoutBaremo=array();
+				foreach ($allStudentsIds as $asidkey => $allStudentId) {
+					$allResults=\App\CombineResult::where('folderId',$folder->id)->where('studentId',$allStudentId)->get();
+					$allResultsScores=0;
+					foreach ($allResults as $allresultkey => $allResult) {
+						$allResultsScores=$allResultsScores+$allResult->points;
+					}
+
+					array_push($scoresWithoutBaremo,$allResultsScores);
+				}
+
+				$uniqueScoresWithoutBaremo=array_unique($scoresWithoutBaremo);
+				sort($uniqueScoresWithoutBaremo);
+
+				$highestKeyWithoutBaremo=count($uniqueScoresWithoutBaremo)-1;
+				$percentagesWithoutBaremo=array();
+				foreach ($uniqueScoresWithoutBaremo as $oswbkey => $oswbvalue) {
+
+					if($highestKeyWithoutBaremo==0){
+								$perWithoutBaremo=100;
+					}
+					if($highestKeyWithoutBaremo!=0){
+						$perWithoutBaremo=$oswbkey/$highestKeyWithoutBaremo*100;
+					}
+					array_push($percentagesWithoutBaremo,$perWithoutBaremo);
+					if($oswbvalue==$studentAllTopicsScore){
+						
+						$withoutArray=array();
+						$withoutArray['rankName']="Rank. $folder->name sin baremo";
+						$withoutArray['percentage']=$perWithoutBaremo;
+						$withoutArray['points']=$studentAllTopicsScore;
+						$withoutArray['totalPoints']=$studentAllTopicsScoreTotal;
+						$resultArray[$folderkey]['withoutBaremo']=$withoutArray;
+						array_push($data,$perWithoutBaremo);
+						
+
+					}
+				}
+				//end only topic without baremo
+				//start only topic with baremo
+				$studentAllTopics2=\App\CombineResult::where('folderId',$folder->id)->where('studentId',$studentId)->get();
+				if(!empty($studentAllTopics2)){
+					$studentAllTopicsScore2=0;
+					$studentAllTopicsScore2Total=0;
+					foreach ($studentAllTopics2 as $studentalltopickey => $value) {
+						$studentAllTopicsScore2=$studentAllTopicsScore2+$value->points;
+					}
+					foreach ($studentAllTopics2 as $studentalltopickey => $value) {
+						$studentAllTopicsScore2Total=$studentAllTopicsScore2Total+$value->totalPoints;
+					}
+					$studentAllTopicsScore2=$studentAllTopicsScore2+$student->baremo;
+					$allStudents=\App\CombineResult::where('folderId',$folder->id)->select('studentId')->distinct()->get();
+					$scoresWithBaremo=array();
+					foreach ($allStudents as $askey => $allStudent) {
+						$studentB=\App\User::find($allStudent->studentId);
+						$allResults2=\App\CombineResult::where('folderId',$folder->id)
+						->where('studentId',$allStudent->studentId)->get();
+						$allResultsScores2=0;
+						foreach ($allResults2 as $allresultkey => $allResult2) {
+							$allResultsScores2=$allResultsScores2+$allResult2->points;
+						}
+						$allResultsScores2=$allResultsScores2+$studentB->baremo;
+						array_push($scoresWithBaremo,$allResultsScores2);
+					}
+					$uniqueScoresWithBaremo=array_unique($scoresWithBaremo);
+					sort($uniqueScoresWithBaremo);
+					$highestKeyWithBaremo=count($uniqueScoresWithBaremo)-1;
+					$percentagesWithBaremo=array();
+					foreach ($uniqueScoresWithBaremo as $oswbkey => $oswbvalue) {
+						if($highestKeyWithBaremo==0){
+							$perWithBaremo=100;
+						}
+						if($highestKeyWithBaremo!=0){
+							$perWithBaremo=$oswbkey/$highestKeyWithBaremo*100;
+						}
+						array_push($percentagesWithBaremo,$perWithBaremo);
+						if($oswbvalue==$studentAllTopicsScore2){
+							
+							$withArray=array();
+							$withArray['rankName']="Rank. $folder->name con baremo";
+							$withArray['percentage']=$perWithBaremo;
+							$withArray['points']=$studentAllTopicsScore2;
+							$withArray['totalPoints']=$studentAllTopicsScore2Total;
+							$resultArray[$folderkey]['withBaremo']=$withArray;
+							array_push($data,$perWithBaremo);
+							
+						}
+					}
+				}
+			}
+
+			//end only topic with baremo
+			array_push($mainData,$data);
+
+		}
+		
+		
+		return response()->json(['data'=>$mainData,'status'=>'Successfull']);
+
+	}
+
+	public function getTopicCourseHorizontalRanking3(Request $request){
+
+		$studentId=$request->get('studentId');
+		
+		$student=\App\User::find($studentId);
+		if(empty($student)){
+			echo "Your user deleted";
+		}
+		if(!empty($student)){
+			$folders=\App\Folder::where('type','exams')->where('studentType',$student->type)->get();
+			
+			$resultArray=array();
+			$mainData=array();
+			//$firstArray=array();
+			//array_push($firstArray,'Temas');
+			//array_push($firstArray,'Conocimientos');
+			//array_push($firstArray,'Inglés');
+			//array_push($firstArray,'Psicotécnicos');
+			//array_push($firstArray,'Ortografía');
+			//array_push($firstArray,'Global sin baremo');
+			//array_push($firstArray,'Global con baremo');
+			//array_push($mainData,$firstArray);
+			$courseKnow=\App\Course::where('name','Psicotécnicos')->first();
+				$cik=$courseKnow->id;
+				$courseKnow2=\App\Course::where('name','Inglés')->first();
+				$cik2=$courseKnow2->id;
+				$courseKnowO=\App\Course::where('name','Ortografía')->first();
+				$cikO=$courseKnowO->id;
+			foreach ($folders as $folderkey => $folder) {
+				$data=array();
+				//array_push($data,$folderkey+1);
+				array_push($data,$folder->field1x);
+				//course with topic
+				$courses=\App\Course::all();
+				$coursesA=array();
+
+				foreach ($courses as $coursekey => $course) {
+					//p
+				
+					$m=null;
+					$s=null;
+					$h=null;
+					$ch=null;
+					$count=null;
+					$tfp=null;
+					$count=\App\CombineResult::select('points')->where('folderId',$folder->id)->where('courseId',$cik)
+									->get()->count();	
+
+					$tfp=intval(round(0.25*$count));
+
+					if($tfp>=1){
+						$combineResults=\App\CombineResult::where('folderId',$folder->id)->where('courseId',$cik)
+						->orderByRaw("CAST(points AS SIGNED) ASC")->get();	
+						//dd($combineResults);	
+						$allS=array();
+						foreach ($combineResults as $combinekey => $combine) {
+							$um=\App\User::find($combine->studentId);
+							if(!empty($um)){
+								array_push($allS,$combine->points);
+							}
+						}
+						$m=$allS[$tfp-1];	
+					}
+
+					if($tfp<1){
+						$m=0;
+					}
+					$ch=\App\CombineResult::where('folderId',$folder->id)->where('courseId',$cik)
+								->orderByRaw("CAST(points AS SIGNED) DESC")->get();	
+
+
+					if(!empty($ch[0])){			
+						$h=$ch[0]->points;
+						$s=$h-$m;
+
+					}
+
+					
+				//end p
+					if($course->name=="Psicotécnicos"){
+						
+						$studentCombineResult=\App\CombineResult::where('folderId',$folder->id)->where('courseId',$course->id)
+						->where('studentId',$studentId)->first();
+
+						if(empty($studentCombineResult)){
+							$course->setAttribute('rankName',"Ranking de $course->name");
+							$course->setAttribute('percentage','null');
+							$course->setAttribute('points','null');
+							$course->setAttribute('totalPoints','null');
+							array_push($data,null);
+						}
+						if(!empty($studentCombineResult)){
+							//for current
+							$studentCombineResult=\App\CombineResult::where('folderId',$folder->id)->where('courseId',$course->id)
+							->where('studentId',$studentId)->first();
+							$directScore=$studentCombineResult->points;
+						
+							$f=$studentCombineResult->points-$m;
+
+							$ch=\App\CombineResult::where('folderId',$folder->id)->where('courseId',$course->id)
+								->orderByRaw("CAST(points AS SIGNED) DESC")->get();
+								
+							$weightedC=15*$f/$s;
+
+							//end for current
+							$combineResults=\App\CombineResult::where('folderId',$folder->id)->where('courseId',$course->id)
+								->orderByRaw("CAST(points AS SIGNED) ASC")->get();	
+									
+							$allScores=array();
+							foreach ($combineResults as $combinekey => $combine) {
+								$um=\App\User::find($combine->studentId);
+								if(!empty($um)){
+									
+									$f=$combine->points-$m;
+									
+									$weightedA=15*$f/$s;
+									array_push($allScores,$weightedA);
+								}
+
+
+							}
+							$uniqueScores=array_unique($allScores);
+							sort($uniqueScores);
+							
+							$highestKey=count($uniqueScores)-1;
+							$percentages=array();
+
+							foreach ($uniqueScores as $uniquekey => $unique) {
+								
+								if($highestKey==0){
+									$per=100;
+								}
+								if($highestKey!=0){
+									$per=$uniquekey/$highestKey*100;
+								}
+								
+								array_push($percentages,$per);
+
+								if($unique==$weightedC){
+
+									$course->setAttribute('rankName',"Ranking de $course->name");
+									$course->setAttribute('percentage',intval($per));
+									$course->setAttribute('points',round($studentCombineResult->points,2));
+									$course->setAttribute('totalPoints',$studentCombineResult->totalPoints);
+									array_push($data,intval($per));
+									
+								}
+							}
+						}
+					}
+
+					if($course->name!="Psicotécnicos"){
+						$studentCombineResult=\App\CombineResult::where('folderId',$folder->id)->where('courseId',$course->id)
+						->where('studentId',$studentId)->first();
+						if(empty($studentCombineResult)){
+							$course->setAttribute('rankName',"Ranking de $course->name");
+							$course->setAttribute('percentage','null');
+							$course->setAttribute('points','null');
+							$course->setAttribute('totalPoints','null');
+							array_push($data,null);
+
+						}
+						if(!empty($studentCombineResult)){
+							$combineResults=\App\CombineResult::where('folderId',$folder->id)->where('courseId',$course->id)
+								->orderByRaw("CAST(points AS SIGNED) ASC")->get();		
+							$allScores=array();
+							foreach ($combineResults as $combinekey => $combine) {
+								$um=\App\User::find($combine->studentId);
+								if(!empty($um)){
+									array_push($allScores,$combine->points);
+								}
+							}
+							$uniqueScores=array_unique($allScores);
+							sort($uniqueScores);
+							$highestKey=count($uniqueScores)-1;
+							$percentages=array();
+							foreach ($uniqueScores as $uniquekey => $unique) {
+								
+								if($highestKey==0){
+									$per=100;
+								}
+								if($highestKey!=0){
+									$per=$uniquekey/$highestKey*100;
+								}
+								
+								array_push($percentages,$per);
+
+								if($unique==$studentCombineResult->points){
+
+									$course->setAttribute('rankName',"Ranking de $course->name");
+									$course->setAttribute('percentage',intval($per));
+									if($course->name=="Inglés"){
+									$divC=\App\CombineResult::where('folderId',$folder->id)->where('courseId',$course->id)->where('studentId',$studentId)->first();
+									$div=$divC->field1x;
+									$course->setAttribute('points',round($unique,2)/$div);
+									$course->setAttribute('totalPoints',$studentCombineResult->totalPoints/$div);
+									}
+									if($course->name!="Inglés"){
+										$course->setAttribute('points',round($unique,2));
+										$course->setAttribute('totalPoints',$studentCombineResult->totalPoints);
+									}
+									array_push($data,intval($per));
+									
+								}
+							}
+						}
+					}
+				}
+				$cA=$courses->toArray();
+				$resultArray[$folderkey]['folderName']=$folder->name;
+				$resultArray[$folderkey]['courses']=$cA;	
+				//end course with topic
+
+
+				$courseKnow=\App\Course::where('name','Psicotécnicos')->first();
+				$cik=$courseKnow->id;
+				//start only topic without baremo
+				$exists1=\App\CombineResult::where('folderId',$folder->id)->where('studentId',$studentId)->exists();
+				if($exists1==false){
+					$withoutArray=array();
+					$withoutArray['rankName']="Rank. $folder->name sin baremo";
+					$withoutArray['percentage']=null;
+					$withoutArray['points']=null;
+					$withoutArray['totalPoints']=null;
+					$resultArray[$folderkey]['withoutBaremo']=$withoutArray;
+					array_push($data,null);
+					
+
+					$withArray=array();
+					$withArray['rankName']="Rank. $folder->name con baremo";
+					$withArray['percentage']=null;
+					$withArray['points']=null;
+					$withArray['totalPoints']=null;
+					$resultArray[$folderkey]['withBaremo']=$withArray;
+					array_push($data,null);
+					
+					
+				}
+				if($exists1==true){
+					$studentAllTopics=\App\CombineResult::where('folderId',$folder->id)->where('studentId',$studentId)->where('courseId','!=',$cikO)->get();
+					$studentAllTopicsScore=0;
+					$studentAllTopicsScoreTotal=0;
+					foreach ($studentAllTopics as $studentalltopickey => $value) {
+						if($value->courseId!=$cik&&$value->courseId!=$cik2){
+							$studentAllTopicsScore=$studentAllTopicsScore+$value->points;
+						}
+					}
+					if(!empty($weightedC)){
+						if($weightedC<0){
+                        	$weightedC=0;
+                    	}
+						$studentAllTopicsScore=$studentAllTopicsScore+$weightedC;
+					}
+					//start ing
+					$ingCE=\App\CombineResult::where('folderId',$folder->id)->where('studentId',$studentId)
+					->where('courseId',$cik2)->exists();
+					if($ingCE==true){
+						$ingC=\App\CombineResult::where('folderId',$folder->id)->where('studentId',$studentId)
+					->where('courseId',$cik2)->get();
+						$divIng=0;
+						$ingTotal=0;
+						foreach ($ingC as $key => $ingV) {
+							$divIng=$divIng+$ingV->field1x;
+							$ingTotal=$ingTotal+$ingV->points;
+						}
+						$ingP=$ingTotal/$divIng;
+						$studentAllTopicsScore=$studentAllTopicsScore+$ingP;
+
+					}
+					//end ing
+					foreach ($studentAllTopics as $studentalltopickey => $value) {
+						if($value->courseId!=$cik&&$value->courseId!=$cik2){
+							$studentAllTopicsScoreTotal=$studentAllTopicsScoreTotal+$value->totalPoints;
+						}
+					}
+					if(isset($weightedC)){
+						$studentAllTopicsScoreTotal=$studentAllTopicsScoreTotal+15;
+					}
+					if($ingCE==true){
+						$studentAllTopicsScoreTotal=$studentAllTopicsScoreTotal+20;	
+					}
+					$allStudents=\App\CombineResult::where('folderId',$folder->id)->select('studentId')->distinct()->get();
+
+					$allStudentsIds=array();
+					foreach ($allStudents as $askey => $allStudent) {
+						$m77=\App\User::find($allStudent->studentId);
+						if(!empty($m77)){
+							array_push($allStudentsIds,$allStudent->studentId);
+						}
+					}
+
+					$scoresWithoutBaremo=array();
+					foreach ($allStudentsIds as $asidkey => $allStudentId) {
+						$allResults=\App\CombineResult::where('folderId',$folder->id)->where('studentId',$allStudentId)->where('courseId','!=',$cikO)->get();
+						$allResultsScores=0;
+						foreach ($allResults as $allresultkey => $allResult) {
+							if($allResult->courseId!=$cik&&$allResult->courseId!=$cik2){
+								$allResultsScores=$allResultsScores+$allResult->points;
+							}
+						}
+						//for wei
+						$allResultsP=\App\CombineResult::where('folderId',$folder->id)->where('studentId',$allStudentId)->where('courseId',$cik)->get();
+						if(!empty($allResultsP)){
+							$allResultsScoresP=0;
+							foreach ($allResultsP as $allresultkeyP => $allResultP) {
+								$allResultsScoresP=$allResultsScoresP+$allResultP->points;
+							}
+
+							$fP=$allResultsScoresP-$m;
+							$wP=15*$fP/$s;
+
+							if($wP<0){
+								$wP=0;
+							}
+							$allResultsScores=$allResultsScores+$wP;
+							
+						}
+						//end forwei
+						//start ing
+						$ingEE=\App\CombineResult::where('folderId',$folder->id)->where('studentId',$allStudentId)
+						->where('courseId',$cik2)->exists();
+						if($ingEE==true){
+							$ingE=\App\CombineResult::where('folderId',$folder->id)->where('studentId',$allStudentId)
+						->where('courseId',$cik2)->get();
+							$ingS=0;
+							$ingSD=0;
+							foreach ($ingE as $key => $value) {
+								$ingS=$ingS+$value->points;
+								$ingSD=$ingSD+$value->field1x;
+							}
+							$ing=$ingS/$ingSD;
+							$allResultsScores=$allResultsScores+$ing;
+						}
+						//end ing
+						array_push($scoresWithoutBaremo,$allResultsScores);
+					}
+
+					$uniqueScoresWithoutBaremo=array_unique($scoresWithoutBaremo);
+					sort($uniqueScoresWithoutBaremo);
+
+					$highestKeyWithoutBaremo=count($uniqueScoresWithoutBaremo)-1;
+					$percentagesWithoutBaremo=array();
+					foreach ($uniqueScoresWithoutBaremo as $oswbkey => $oswbvalue) {
+
+						if($highestKeyWithoutBaremo==0){
+									$perWithoutBaremo=100;
+						}
+						if($highestKeyWithoutBaremo!=0){
+							$perWithoutBaremo=$oswbkey/$highestKeyWithoutBaremo*100;
+						}
+						array_push($percentagesWithoutBaremo,$perWithoutBaremo);
+						if($oswbvalue==$studentAllTopicsScore){
+							
+							$withoutArray=array();
+							$withoutArray['rankName']="Rank. $folder->name sin baremo";
+							$withoutArray['percentage']=intval($perWithoutBaremo);
+							$withoutArray['points']=round($studentAllTopicsScore,2);
+							$withoutArray['totalPoints']=$studentAllTopicsScoreTotal;
+							$resultArray[$folderkey]['withoutBaremo']=$withoutArray;
+							array_push($data,intval($perWithoutBaremo));
+							
+
+						}
+					}
+					//end only topic without baremo
+					//start only topic with baremo
+					$studentAllTopics2=\App\CombineResult::where('folderId',$folder->id)->where('studentId',$studentId)->where('courseId','!=',$cikO)->get();
+					if(!empty($studentAllTopics2)){
+						$studentAllTopicsScore2=0;
+						$studentAllTopicsScore2Total=0;
+						foreach ($studentAllTopics2 as $studentalltopickey => $value) {
+							if($value->courseId!=$cik&&$value->courseId!=$cik2){
+								$studentAllTopicsScore2=$studentAllTopicsScore2+$value->points;
+							}
+						}
+						if(!empty($weightedC)){
+							if($weightedC<0){
+                        		$weightedC=0;
+                    		}
+							$studentAllTopicsScore2=$studentAllTopicsScore2+$weightedC;
+						}
+						//start ing
+						$ingC2E=\App\CombineResult::where('folderId',$folder->id)->where('studentId',$studentId)
+						->where('courseId',$cik2)->exists();
+						if($ingC2E==true){
+							$ingC2=\App\CombineResult::where('folderId',$folder->id)->where('studentId',$studentId)
+						->where('courseId',$cik2)->get();
+							$divIng2=0;
+							$ingTotal2=0;
+							foreach ($ingC2 as $key => $ingV) {
+								$divIng2=$divIng2+$ingV->field1x;
+								$ingTotal2=$ingTotal2+$ingV->points;
+							}
+							$ingP2=$ingTotal2/$divIng2;
+							$studentAllTopicsScore2=$studentAllTopicsScore2+$ingP2;
+
+						}
+						//end ing
+						foreach ($studentAllTopics2 as $studentalltopickey => $value) {
+							if($value->courseId!=$cik&&$value->courseId!=$cik2){
+								$studentAllTopicsScore2Total=$studentAllTopicsScore2Total+$value->totalPoints;
+							}
+						}
+						if(isset($weightedC)){
+							$studentAllTopicsScore2Total=$studentAllTopicsScore2Total+15;
+						}
+						if($ingC2E=true){
+							$studentAllTopicsScore2Total=$studentAllTopicsScore2Total+20;	
+						}
+						$studentAllTopicsScore2=$studentAllTopicsScore2+$student->baremo;
+						$allStudents=\App\CombineResult::where('folderId',$folder->id)->select('studentId')->distinct()->get();
+						$scoresWithBaremo=array();
+						foreach ($allStudents as $askey => $allStudent) {
+							$studentB=\App\User::find($allStudent->studentId);
+							if(!empty($studentB)){
+								$allResults2=\App\CombineResult::where('folderId',$folder->id)
+								->where('studentId',$allStudent->studentId)->where('courseId','!=',$cikO)->get();
+								$allResultsScores2=0;
+								foreach ($allResults2 as $allresultkey => $allResult2) {
+									if($allResult2->courseId!=$cik&&$allResult2->courseId!=$cik2){
+										$allResultsScores2=$allResultsScores2+$allResult2->points;
+									}
+								}
+								if(!empty($studentB->baremo)){
+									//dd($studentB->baremo,$studentB);
+									$allResultsScores2=$allResultsScores2+(int)$studentB->baremo;
+
+								}
+								//for wei
+								$allResultsP2=\App\CombineResult::where('folderId',$folder->id)->where('studentId',$allStudent->studentId)->where('courseId',$cik)->get();
+								if(!empty($allResultsP2)){
+									$allResultsScoresP2=0;
+									foreach ($allResultsP2 as $allresultkeyP2 => $allResultP2) {
+										$allResultsScoresP2=$allResultsScoresP2+$allResultP2->points;
+									}
+									
+									$fP2=$allResultsScoresP2-$m;
+
+									$wP2=15*$fP2/$s;
+									if($wP2<0){
+										$wP2=0;
+									}
+									
+									$allResultsScores2=$allResultsScores2+$wP2;
+									
+								}
+								//end forwei
+								//start ing
+								$ingE2E=\App\CombineResult::where('folderId',$folder->id)->where('studentId',$allStudent->studentId)
+								->where('courseId',$cik2)->exists();
+								if($ingE2E==true){
+									$ingE2=\App\CombineResult::where('folderId',$folder->id)->where('studentId',$allStudent->studentId)
+								->where('courseId',$cik2)->get();
+									$ingS2=0;
+									$ingSD2=0;
+									foreach ($ingE2 as $key => $value) {
+										$ingS2=$ingS2+$value->points;
+										$ingSD2=$ingSD2+$value->field1x;
+									}
+									$ing2=$ingS2/$ingSD2;
+									$allResultsScores2=$allResultsScores2+$ing2;
+								}
+								//end ing
+								array_push($scoresWithBaremo,$allResultsScores2);
+							}
+						}
+						$uniqueScoresWithBaremo=array_unique($scoresWithBaremo);
+						sort($uniqueScoresWithBaremo);
+						$highestKeyWithBaremo=count($uniqueScoresWithBaremo)-1;
+						$percentagesWithBaremo=array();
+						foreach ($uniqueScoresWithBaremo as $oswbkey => $oswbvalue) {
+							if($highestKeyWithBaremo==0){
+								$perWithBaremo=100;
+							}
+							if($highestKeyWithBaremo!=0){
+								$perWithBaremo=$oswbkey/$highestKeyWithBaremo*100;
+							}
+							array_push($percentagesWithBaremo,$perWithBaremo);
+							if($oswbvalue==$studentAllTopicsScore2){
+								
+								$withArray=array();
+								$withArray['rankName']="Rank. $folder->name con baremo";
+								$withArray['percentage']=intval($perWithBaremo);
+								$withArray['points']=round($studentAllTopicsScore2,2);
+								$withArray['totalPoints']=$studentAllTopicsScore2Total;
+								$resultArray[$folderkey]['withBaremo']=$withArray;
+								array_push($data,intval($perWithBaremo));
+								
+							}
+						}
+					}
+				}
+
+				//end only topic with baremo
+				array_push($mainData,$data);
+
+			}
+
+
+			$mainData=json_encode($mainData);
+			//dd($mainData);
+			return view('googleChart',compact('mainData'));
+			//return response()->json(['data'=>$mainData,'status'=>'Successfull']);
+		}
+
+	}
+}
