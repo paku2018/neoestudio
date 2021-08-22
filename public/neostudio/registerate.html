@@ -1,0 +1,512 @@
+<!DOCTYPE html> 
+<html> 
+   <head> 
+      <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <!-- Bootstrap CSS -->
+  
+
+    <title>Neoestudio</title>
+    <style type="text/css">
+    @font-face {
+      font-family: "Proxima Nova Regular";
+      src: url("pr.otf");
+    }
+    @font-face {
+      font-family: "Proxima Nova Bold";
+      src: url("pb.otf");
+    }
+    @font-face {
+  font-family: "Proxima Nova Soft";
+  src: url("pss.ttf");
+}
+b{
+  font-family: Proxima Nova Soft;
+}
+    body{
+      font-family: Proxima Nova Regular;
+      background: url('bodyback.jpg');
+      background-size: 100% 100%;
+    }
+    #tB:focus{
+    outline: 1px;
+  }
+    .mU {
+  list-style-type: none;
+}
+
+.liU:before {
+  content: '-';
+  position: absolute;
+  margin-left: -20px;
+}
+  a{
+    color: #777;
+  }
+  a:hover{
+    text-decoration: none;
+    color: white;
+  }
+     #nav li {
+  display: inline;
+}
+        
+     
+         #main-container {
+    width: 100%;
+   margin-top: -32px;
+}
+#main-video {
+    object-fit: fill;
+    width: 100%;
+    height: 40vh;
+}
+.logoLeft{
+    width: 30%; height: auto; position: absolute;
+    left: 1px;
+    top: 0px;
+    z-index: 1;
+  }
+  .logoRight{
+    display: none;
+  }
+  .firstLi{
+    padding-right: 75px;
+  }
+  #sv{
+    
+  }
+  .underVideoDiv{
+    
+  }
+  .mainHeading{
+    display: none;
+    margin-left: 4%;
+  }
+  .forLg{
+  	display: none;
+  }
+  .forSm{
+  	display: block;
+  }
+  .underHeadingDiv{
+    
+  }
+  .content{
+    display: none;
+    margin-left: 5%; margin-right: 1%;
+  }
+  .underContentDiv{
+    background:url(4.png); background-size: contain; background-repeat: no-repeat;
+  }
+  .buttonsP{
+    margin-left: 15%;
+  }
+  .button1{
+    width: 40%;
+  }
+  .button2{
+    width: 40%;
+  }
+  .footerImage{
+     left: 0; bottom: 0;width: 20%;
+  }
+  .handClass{
+    width: 100px; margin-top: 5px;
+  }
+  .cara{
+    margin-top: 20%;
+  }
+  #navbarSupportedContent{
+    padding-left: 30%;
+  }
+  input[type="text"]::placeholder {  
+    text-align: center;
+  }
+@media only screen and (min-width: 1000px) {
+  body{
+    background: url('bodyback.jpg');
+      background-size: 100% 100%;
+  }
+  a{
+    color: #777;
+  }
+  a:hover{
+    text-decoration: none;
+    color: white;
+  }
+  #nav li {
+    display: inline;
+  }   
+  #main-container {
+    width: 100%;
+   margin-top: -32px;
+  }
+  #forLg{
+  	display: block;
+  }
+  #forSm{
+  	display: none;
+  }
+  #main-video {
+    object-fit: fill;
+    width: 100%;
+    height: 85vh;
+  }
+  .logoLeft{
+    width: 10%; height: auto; position: absolute;
+    left: 1px;
+    top: 0px;
+    z-index: 1;
+  }
+  .logoRight{
+    display: block;
+    width: 9%; height: auto; position: absolute;
+    right: 2%;
+    top: 0px;
+    z-index: 1;
+  }
+  .firstLi{
+    
+  }
+#horizontal-style {
+    display: table;
+    width: 70%;
+    margin-left:5%;
+    table-layout: fixed;
+
+}
+#horizontal-style li {
+    display: table-cell;
+}
+#horizontal-style a {
+    display: block;
+    
+    text-align: center;
+    margin: 0 0px;
+    
+}
+#sv{
+  background:url('Header1.png');
+        background-size: 100% 100%; padding-top: 2%;padding-bottom: 4%;border:0
+}
+  .underVideoDiv{
+    margin-top: -150px;
+    background:url(4.png); background-size: contain; background-repeat: no-repeat;
+  }
+  .mainHeading{
+    display: block;
+    visibility: hidden;
+    margin-left: 15%; padding-top: 5%;
+  }
+  .underHeadingDiv{
+    margin-left: 20%; margin-right: 20%;
+  }
+  .content{
+    display: block;
+    visibility: hidden;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .underContentDiv{
+    background:url();
+  }
+  .buttonsP{
+    margin-left: 35%; padding-top: 5%;
+  }
+  .button1{
+    width: 20%;
+  }
+  .button2{
+    width: 20%;
+  }
+  .footerImage{
+    left: 0; bottom: 0; width: 10%;
+  }
+  .handClass{
+    width: 375px; margin-top: -100px;
+  }
+  #navbarSupportedContent{
+    padding-left: 0;
+  }
+  .cara{
+    margin-top: 0;
+  }
+  .forLg{
+    display: block;
+  }
+  .forSm{
+    display: none;
+  }
+  input[type="text"]::placeholder {  
+    text-align: center;
+    vertical-align: middle;
+  } 
+}
+      </style> 
+   </head> 
+     
+   <body style=""> 
+    <div style="background:url('Header1.png');background-size: cover;">
+    <img class="logoLeft" src="1.png">
+    <img class="logoRight" src="Logo.png">
+    <nav id="sv" class="navbar navbar-expand-lg navbar-dark">
+        
+        <button id="tB" style="border: none; position: absolute;right: 0 ;top: 0;" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <img src="Logo.png" class="lgm" style="width: 100px;"><br>
+          <span class="navbar-toggler-icon" style="float: right; border-color: transparent;margin-top: -25px;"></span>
+          
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          
+          <ul class="navbar-nav mr-auto" id="horizontal-style">
+            <li style=""><a href="http://95.179.208.227/acadmy/neostudio/inicio.html">Inicio</a></li>
+            <li style=""><a href="http://95.179.208.227/acadmy/neostudio/oposicion.html">Oposición</a></li>
+            <li style=""><a href="http://95.179.208.227/acadmy/neostudio/formacion.html">Formación</a></li>
+            <li style=""><a href="http://95.179.208.227/acadmy/neostudio/equipo.html">Equipo</a></li>
+            <li style=""><a href="http://95.179.208.227/acadmy/neostudio/contacto.html">Contacto</a></li>
+            <li style=""><a href="http://95.179.208.227/acadmy/neostudio/registerate.html" style="color:white;text-decoration:underline;text-underline-position:under;">¡Regístrate!</a></li>
+            <li style=""><a href="http://95.179.208.227/acadmy/neostudio/comienza.html">¡Comienza ya!</a></li>
+          </ul>
+         
+        </div>
+      </nav>
+      
+      
+  
+  
+  <span class="forSm"><br><br><br></span>  
+  </div>
+  <br>
+  <div class="text-center"><h2 style="font-family: Proxima Nova Soft">Registro</h2></div><br>
+
+    <div class="container forLg" style="width: 60%">
+      <form>
+        <div class="row">
+          <div class="col-md-6">
+            <div style="width: 100%; border-radius: 20px; position: relative;">
+
+              <img src="1f.png" style="width:40px; position: absolute; left: 3%; padding-top: 7px;">
+              <input class="form-control" type="text" name="name" placeholder="Nombre de usuario" style="background:url(9.png);background-size: 100% 100%; width: 100%;padding-left: 13%; height: 60px; font-size: 110%; box-shadow: none;border:none;padding-bottom: 14px;">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div style="width: 100%; border-radius: 20px; position: relative;">
+              <img src="dnni.png" style="width:50px; position: absolute; left: 3%; padding-top: 7px;">
+              <input class="form-control" type="text" name="name" placeholder="DNI" style="background:url(9.png);background-size: 100% 100%; width: 100%;padding-left: 14%; height: 60px; font-size: 100%; box-shadow: none;border:none; padding-bottom: 14px;">
+            </div>
+          </div>
+        </div><br>
+        <div class="row">
+          <div class="col-md-6">
+            <div style="width: 100%; border-radius: 20px; position: relative;">
+
+              <img src="7f.png" style="width:40px; position: absolute; left: 3%; padding-top: 7px;">
+              <input class="form-control" type="text" name="name" placeholder="Contraseña" style="background:url(9.png);background-size: 100% 100%; width: 100%;padding-left: 13%; height: 60px; font-size: 110%; box-shadow: none;border:none;padding-bottom: 14px;">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div style="width: 100%; border-radius: 20px; position: relative;">
+              <img src="4f.png" style="width:40px; position: absolute; left: 3%; padding-top: 7px;">
+              <input class="form-control" type="text" name="name" placeholder="Domicilio, num, bloque, piso y letra" style="background:url(9.png);background-size: 100% 100%; width: 100%;padding-left: 13%; height: 60px; font-size: 110%; box-shadow: none;border:none; padding-bottom: 14px;">
+            </div>
+          </div>
+        </div><br>
+        <div class="row">
+          <div class="col-md-6">
+            <div style="width: 100%; border-radius: 20px; position: relative;">
+
+              <img src="5f.png" style="width:40px; position: absolute; left: 3%; padding-top: 7px;">
+              <input class="form-control" type="text" name="name" placeholder="Correo electrónico" style="background:url(9.png);background-size: 100% 100%; width: 100%;padding-left: 13%; height: 60px; font-size: 110%; box-shadow: none;border:none;padding-bottom: 14px;">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div style="width: 100%; border-radius: 20px; position: relative;">
+              <img src="6f.png" style="width:40px; position: absolute; left: 3%; padding-top: 7px;">
+              <input class="form-control" type="text" name="name" placeholder="Localidad, provincia" style="background:url(9.png);background-size: 100% 100%; width: 100%;padding-left: 13%; height: 60px; font-size: 110%; box-shadow: none;border:none; padding-bottom: 14px;">
+            </div>
+          </div>
+        </div><br>
+        <div class="row">
+          <div class="col-md-6">
+            <div style="width: 100%; border-radius: 20px; position: relative;">
+
+              <img src="3f.png" style="width:40px; position: absolute; left: 3%; padding-top: 7px;">
+              <input class="form-control" type="text" name="name" placeholder="Teléfono móvil" style="background:url(9.png);background-size: 100% 100%; width: 100%;padding-left: 13%; height: 60px; font-size: 110%; box-shadow: none;border:none;padding-bottom: 14px;">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div style="width: 100%; border-radius: 20px; position: relative;">
+              <img src="8f.png" style="width:40px; position: absolute; left: 3%; padding-top: 7px;">
+              <input class="form-control" type="text" name="name" placeholder="Código postal" style="background:url(9.png);background-size: 100% 100%; width: 100%;padding-left: 13%; height: 60px; font-size: 110%; box-shadow: none;border:none; padding-bottom: 14px;">
+            </div>
+          </div>
+        </div><br>
+        <div class="row">
+          <div class="col-md-6">
+            <div style="width: 100%; border-radius: 20px; position: relative;">
+
+              <img src="1f.png" style="width:40px; position: absolute; left: 3%; padding-top: 7px;">
+              <input class="form-control" type="text" name="name" placeholder="Nombre y apelidos" style="background:url(9.png);background-size: 100% 100%; width: 100%;padding-left: 13%; height: 60px; font-size: 110%; box-shadow: none;border:none;padding-bottom: 14px;">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div style="width: 100%; border-radius: 20px; position: relative;">
+              <img src="brro.png" style="width:60px; position: absolute; left: 3%; padding-top: 7px;">
+              <input class="form-control" type="text" name="name" placeholder="Baremo" style="background:url(9.png);background-size: 100% 100%; width: 100%;padding-left: 16%; height: 60px; font-size: 110%; box-shadow: none;border:none; padding-bottom: 14px;">
+            </div>
+          </div>
+        </div>
+        <br>
+        <div class="text-center">
+          <img class="button2" src="registerB.png" style="width: 20%; text-align: center;">
+        </div>
+      </form>
+    </div>
+
+    <div class="container forSm" style="width: 100%;">
+    	<br>
+      <form>
+        <div class="row">
+          <div class="col-12">
+            <div style="width: 100%; border-radius: 20px; position: relative;">
+
+              <img src="1f.png" style="width:35px; position: absolute; left: 3%; padding-top: 7px;">
+              <input class="form-control" type="text" name="name" placeholder="Nombre de usuario" style="background:url(9.png);background-size: 100% 100%; width: 100%;padding-left: 16%; height: 55px; font-size: 120%; box-shadow: none;border:none;padding-bottom: 14px;">
+            </div>
+          </div>
+         </div><br>
+         <div class="row">
+          <div class="col-12">
+            <div style="width: 100%; border-radius: 20px; position: relative;">
+
+              <img src="7f.png" style="width:35px; position: absolute; left: 3%; padding-top: 7px;">
+              <input class="form-control" type="text" name="name" placeholder="Contraseña" style="background:url(9.png);background-size: 100% 100%; width: 100%;padding-left: 16%; height: 55px; font-size: 120%; box-shadow: none;border:none;padding-bottom: 14px;">
+            </div>
+          </div>
+         </div><br>
+         <div class="row">
+          <div class="col-12">
+            <div style="width: 100%; border-radius: 20px; position: relative;">
+
+              <img src="5f.png" style="width:35px; position: absolute; left: 3%; padding-top: 7px;">
+              <input class="form-control" type="text" name="name" placeholder="Correo electrónico" style="background:url(9.png);background-size: 100% 100%; width: 100%;padding-left: 16%; height: 55px; font-size: 120%; box-shadow: none;border:none;padding-bottom: 14px;">
+            </div>
+          </div>
+         </div><br>
+         <div class="row">
+          <div class="col-12">
+            <div style="width: 100%; border-radius: 20px; position: relative;">
+
+              <img src="3f.png" style="width:35px; position: absolute; left: 3%; padding-top: 7px;">
+              <input class="form-control" type="text" name="name" placeholder="Teléfono móvil" style="background:url(9.png);background-size: 100% 100%; width: 100%;padding-left: 16%; height: 55px; font-size: 120%; box-shadow: none;border:none;padding-bottom: 14px;">
+            </div>
+          </div>
+         </div><br>
+         <div class="row">
+          <div class="col-12">
+            <div style="width: 100%; border-radius: 20px; position: relative;">
+
+              <img src="1f.png" style="width:35px; position: absolute; left: 3%; padding-top: 7px;">
+              <input class="form-control" type="text" name="name" placeholder="Nombre y apelidos" style="background:url(9.png);background-size: 100% 100%; width: 100%;padding-left: 16%; height: 55px; font-size: 120%; box-shadow: none;border:none;padding-bottom: 14px;">
+            </div>
+          </div>
+         </div><br>
+         <div class="row">
+          <div class="col-12">
+            <div style="width: 100%; border-radius: 20px; position: relative;">
+
+              <img src="dnni.png" style="width:45px; position: absolute; left: 3%; padding-top: 7px;">
+              <input class="form-control" type="text" name="name" placeholder="DNI" style="background:url(9.png);background-size: 100% 100%; width: 100%;padding-left: 17%; height: 55px; font-size: 120%; box-shadow: none;border:none;padding-bottom: 14px;">
+            </div>
+          </div>
+         </div>
+        <br>
+        
+         <div class="row">
+          <div class="col-12">
+            <div style="width: 100%; border-radius: 20px; position: relative;">
+
+              <img src="4f.png" style="width:35px; position: absolute; left: 3%; padding-top: 7px;">
+              <input class="form-control" type="text" name="name" placeholder="Domicilio, num, bloque, piso y letra" style="background:url(9.png);background-size: 100% 100%; width: 100%;padding-left: 16%; height: 55px; font-size: 90%; box-shadow: none;border:none;padding-bottom: 14px;">
+            </div>
+          </div>
+         </div>
+         <br>
+         
+         <div class="row">
+          <div class="col-12">
+            <div style="width: 100%; border-radius: 20px; position: relative;">
+
+              <img src="6f.png" style="width:35px; position: absolute; left: 3%; padding-top: 7px;">
+              <input class="form-control" type="text" name="name" placeholder="Localidad, provincia" style="background:url(9.png);background-size: 100% 100%; width: 100%;padding-left: 16%; height: 60px; font-size: 120%; box-shadow: none;border:none;padding-bottom: 14px;">
+            </div>
+          </div>
+         </div>
+         <br>
+         
+         <div class="row">
+          <div class="col-12">
+            <div style="width: 100%; border-radius: 20px; position: relative;">
+
+              <img src="8f.png" style="width:35px; position: absolute; left: 3%; padding-top: 7px;">
+              <input class="form-control" type="text" name="name" placeholder="Código postal" style="background:url(9.png);background-size: 100% 100%; width: 100%;padding-left: 16%; height: 55px; font-size: 120%; box-shadow: none;border:none;padding-bottom: 14px;">
+            </div>
+          </div>
+         </div>
+         <br>
+         
+         <div class="row">
+          <div class="col-12">
+            <div style="width: 100%; border-radius: 20px; position: relative;">
+
+              <img src="brro.png" style="width:50px; position: absolute; left: 3%; padding-top: 7px;">
+              <input class="form-control" type="text" name="name" placeholder="Baremo" style="background:url(9.png);background-size: 100% 100%; width: 100%;padding-left: 18%; height: 55px; font-size: 120%; box-shadow: none;border:none;padding-bottom: 14px;">
+            </div>
+          </div>
+         </div>
+         <br>
+        <div class="text-center">
+          <img class="button2" src="registerB.png" style="width: 50%;">
+        </div>
+      </form>
+    </div>
+    
+    
+    
+    
+  
+  
+
+    
+<div class="underVideoDiv">
+    <!--<br><br><br>-->
+    
+      
+    <h4 class="mainHeading"><b>What is Lorem Ipsum?</b></h4><br>
+    
+    <div class="underHeadingDiv">
+
+    <p class="content"></p>      
+    </div>
+
+    <!--<br><br><br><br>-->
+    <div class="underContentDiv">
+    <p class="buttonsP"><img class="button1" src="ddd2.png">&nbsp;&nbsp;&nbsp;<img class="button2" src="ddd.png"></p>
+  <p class="forSm" style="text-align: center; margin-bottom: -5%; margin-top: 20%; font-size: small;color: grey;">© 2020 Neoestudio Academia Online S.L.<br class="forSm">Todos los derechos reservados <br class="forSm"> Página web diseñada por <a href="https://www.qode.pro" style="color: black;">Qode</a></p> 
+   <p class="forLg" style="text-align: center; margin-bottom: -5%; margin-top: 20%; font-size: small;color: grey;">© 2020 Neoestudio Academia Online S.L. Todos los derechos reservados <br class="forSm"> Página web diseñada por <a href="https://www.qode.pro" style="color: black;">Qode</a></p> 
+    <img class="footerImage" src="5.png">
+  </div>
+</div>
+
+
+   </body> 
+</html>

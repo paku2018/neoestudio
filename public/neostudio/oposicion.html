@@ -1,0 +1,593 @@
+<!DOCTYPE html> 
+<html> 
+   <head> 
+      <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <!-- Bootstrap CSS -->
+  
+
+    <title>Neoestudio</title>
+    <style type="text/css">
+    @font-face {
+      font-family: "Proxima Nova Regular";
+      src: url("pr.otf");
+    }
+    @font-face {
+      font-family: "Proxima Nova Bold";
+      src: url("pb.otf");
+    }
+    @font-face {
+  font-family: "Proxima Nova Soft";
+  src: url("pss.ttf");
+}
+b{
+  font-family: Proxima Nova Soft;
+}
+    body{
+      font-family: Proxima Nova Regular;
+      background: url('bodyback.jpg');
+      background-size: 100% 110%;
+    }
+    #tB:focus{
+    outline: 1px;
+  }
+  ul{
+  list-style-type: circle;  
+  }
+
+    .uls {
+  list-style-type: none;
+}
+
+.uls li:before {
+  content: '-';
+  position: absolute;
+  margin-left: -20px;
+}
+  a{
+    color: #777;
+  }
+  .as{
+    text-decoration: underline;
+  }
+  .as:hover{
+    text-decoration: underline;
+  }
+  a:hover{
+    text-decoration: none;
+    color: white;
+  }
+
+
+     #nav li {
+  display: inline;
+}
+        
+     
+         #main-container {
+    width: 100%;
+   margin-top: -19px;
+}
+#main-video {
+    object-fit: fill;
+    width: 100%;
+    height: 40vh;
+}
+.logoLeft{
+    width: 30%; height: auto; position: absolute;
+    left: 1px;
+    top: 0px;
+    z-index: 1;
+  }
+  .logoRight{
+    display: none;
+  }
+  .firstLi{
+    padding-right: 75px;
+  }
+  #sv{
+   
+  }
+  .underVideoDiv{
+    
+  }
+  .mainHeading{
+    display: none;
+    margin-left: 4%;
+  }
+  .underHeadingDiv{
+    
+  }
+  .content{
+    display: none;
+    margin-left: 5%; margin-right: 1%;
+  }
+  .underContentDiv{
+    background:url(4.png); background-size: contain; background-repeat: no-repeat;
+  }
+  .buttonsP{
+    margin-left: 15%;
+  }
+  .button1{
+    width: 40%;
+  }
+  .button2{
+    width: 40%;
+  }
+  #footerImage{
+     left: 0; bottom: 0;width: 20%;
+  }
+  .fig{
+    font-size:60%;
+  }
+  #navbarSupportedContent{
+    padding-left: 30%;
+  }
+  .forLg{
+    display: none;
+  }
+  .forSm{
+    display: block;
+  }
+  img{
+    width: 100%;
+  }
+  
+@media only screen and (min-width: 1000px) {
+  body{
+    background: url('bodyback.jpg');
+      background-size: 100% 110%;
+  }
+    a{
+    color: #777;
+  }
+  a:hover{
+    text-decoration: none;
+    color: white;
+  }
+  #nav li {
+    display: inline;
+    padding-left: 45px;
+  }   
+  #main-container {
+    width: 100%;
+   margin-top: -32px;
+  }
+  #main-video {
+    object-fit: fill;
+    width: 100%;
+    height: 85vh;
+  }
+  .logoLeft{
+    width: 10%; height: auto; position: absolute;
+    left: 1px;
+    top: 0px;
+    z-index: 1;
+  }
+  .logoRight{
+    display: block;
+    width: 9%; height: auto; position: absolute;
+    right: 2%;
+    top: 0px;
+    z-index: 1;
+  }
+  .firstLi{
+    
+  }
+#horizontal-style {
+    display: table;
+    width: 70%;
+    margin-left:5%;
+    table-layout: fixed;
+
+}
+#horizontal-style li {
+    display: table-cell;
+}
+#horizontal-style a {
+    display: block;
+    
+    text-align: center;
+    margin: 0 0px;
+    
+}
+#sv{
+  background:url('Header1.png');
+        background-size: 100% 100%; padding-top: 2%;padding-bottom: 4%;border:0
+}
+  .underVideoDiv{
+    margin-top: -150px;
+    background:url(4.png); background-size: contain; background-repeat: no-repeat;
+  }
+  .mainHeading{
+    display: block;
+    visibility: hidden;
+    margin-left: 15%; padding-top: 5%;
+  }
+  .underHeadingDiv{
+    margin-left: 20%; margin-right: 20%;
+  }
+  .content{
+    display: block;
+    visibility: hidden;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .underContentDiv{
+    position: auto;
+    background: none;
+  }
+  .buttonsP{
+    margin-left: 35%; padding-top: 5%;
+  }
+  .button1{
+    width: 20%;
+  }
+  .button2{
+    width: 20%;
+  }
+  #footerImage{
+    left: 0; bottom: 0;width: 10%;position: relative;
+  }
+  .fig{
+    font-size:100%;
+  }
+  #navbarSupportedContent{
+    padding-left: 0;
+  }
+  .forLg{
+    display: block;
+  }
+  .forSm{
+    display: none;
+  }
+  img{
+    width: 60%;
+  }
+}
+      </style> 
+   </head> 
+     
+   <body> 
+    <div style="background:url('Header1.png');background-size: cover;">
+    <img class="logoLeft" src="1.png">
+    <img class="logoRight" src="Logo.png">
+    <nav id="sv" class="navbar navbar-expand-lg navbar-dark">
+        
+        <button id="tB" style="border: none; position: absolute;right: 0 ;top: 0;" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <img src="Logo.png" class="lgm" style="width: 100px;"><br>
+          <span class="navbar-toggler-icon" style="float: right; border-color: transparent;margin-top: -25px;"></span>
+          
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          
+          <ul class="navbar-nav mr-auto" id="horizontal-style">
+            <li style=""><a href="http://95.179.208.227/acadmy/neostudio/inicio.html">Inicio</a></li>
+            <li style=""><a href="http://95.179.208.227/acadmy/neostudio/oposicion.html"  style="color:white;text-decoration:underline;text-underline-position:under;">Oposición</a></li>
+            <li style=""><a href="http://95.179.208.227/acadmy/neostudio/formacion.html">Formación</a></li>
+            <li style=""><a href="http://95.179.208.227/acadmy/neostudio/equipo.html">Equipo</a></li>
+            <li style=""><a href="http://95.179.208.227/acadmy/neostudio/contacto.html">Contacto</a></li>
+            <li style=""><a href="http://95.179.208.227/acadmy/neostudio/registerate.html">¡Regístrate!</a></li>
+            <li style=""><a href="http://95.179.208.227/acadmy/neostudio/comienza.html">¡Comienza ya!</a></li>
+          </ul>
+         
+        </div>
+      </nav>
+      <span class="forSm"><br><br><br></span>
+    </div> 
+      <span id=""><br><br><br></span>
+    
+       <div style="">
+  <div class="text-center">
+    <h2>Oposición</h2>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3 col-3 text-center">
+        <img id="requisitos" src="requisitos.png" style="" onclick="requisitos()">
+        <figcaption class="fig"><b>Requisitos</b></figcaption>
+        
+      </div>
+      <div class="col-md-3 col-3 text-center">
+        <div  style="">
+          <img id="incripcion" src="incripcion.png" style="" onclick="incripcion()">
+        </div>
+        <figcaption class="fig"><b>Inscripción</b></figcaption>
+      </div>
+      <div class="col-md-3 col-3 text-center">
+        <div  style="">
+          <img id="ortografia" src="ortografia.png" style="" onclick="ortografia()">
+        </div>
+        <figcaption class="fig"><b>Ortografía</b></figcaption>
+      </div>
+      <div class="col-md-3 col-3 text-center">
+        <div  style="">
+          <img id="conciementos" src="conciementos.png" style=""
+           onclick="conciementos()">
+        </div>
+        <figcaption class="fig"><b>Conocimientos</b></figcaption>
+      </div>
+
+    </div>
+    
+<br>
+    <div class="row">
+      <div class="col-md-3 col-3 text-center">
+        <div  style="">
+          <img id="ingles" src="ingles.png" style=""
+          onclick="ingles()">
+        </div>
+        <figcaption class="fig"><b>Inglés</b></figcaption>
+      </div>
+      <div class="col-md-3 col-3 text-center">
+        <div  style="">
+          <img id="psicotecnicos" src="psicotecnicos.png" style=""
+          onclick="psicotecnicos()">
+        </div>
+        <figcaption class="fig"><b>Psicotécnicos</b></figcaption>
+      </div>
+      
+      <div class="col-md-3 col-3 text-center">
+        <div  style="">
+          <img id="fisicas" src="fisicas.png" style=""
+          onclick="fisicas()">
+        </div>
+        <figcaption class="fig"><b>Pruebas físicas</b></figcaption>
+      </div>
+
+      <div class="col-md-3 col-3 text-center">
+        <div  style="">
+          <img id="biodata" src="biodata.png" style=""
+          onclick="biodata()">
+        </div>
+        <figcaption class="fig"><b>Biodata y Test de</b></figcaption><figcaption class="fig"><b>Personalidad</b></figcaption>
+      </div>
+
+    </div>
+    <div class="row">
+      <div class="col-md-3 col-3 text-center">
+        <div  style="">
+          <img id="entrevista" src="entrevista.png" style=""
+          onclick="entrevista()">
+        </div>
+        <figcaption class="fig"><b>Entrevista</b></figcaption><figcaption class="fig"><b>personal</b></figcaption>
+      </div>
+
+      <div class="col-md-3 col-3 text-center">
+        <img id="medicas" src="medicas.png" style=""
+        onclick="medicas()">
+        <figcaption class="fig"><b>Pruebas</b></figcaption><figcaption class="fig"><b>médicas</b></figcaption>
+      </div>
+      <div class="col-md-3 col-3 text-center">
+        <div  style="">
+          <img id="entrega" src="entrega.png" style=""
+          onclick="entrega()">
+        </div>
+        <figcaption class="fig"><b>Entrega de</b></figcaption><figcaption class="fig"><b>documentación</b></figcaption>
+      </div>
+
+    </div>
+    
+  </div>
+  <br><br>
+  <div id="changeAble" style="display: none;">
+    <div class="text-center">
+      <h3><b>Requistos</b></h3>
+    </div>
+    <br><br>
+    <div class="container">
+      <h4><b>En primer lugar, debes comprobar que:</b></h4><br>
+      <p style="text-align: left;"><i class="fa fa-check"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;What is Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+      <p style="text-align: left;"><i class="fa fa-check"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;What is Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and typesetting</p>
+      <br>
+
+      <ul>
+        <li>What is Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and  </li>
+        <li>What is Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum has been the industry's standard dummy text ever since the 1500s when an unknown printer took a galley of type and scrambled it </li>
+        <li>What is Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum has been the industry's standard dummy text ever since the 1500s when an unknown printer took a galley of type and scrambled it to make a type specimen </li>
+        <li>What is Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum has been the industry's standard dummy text ever since the 1500s when an unknown printer took a galley of type and scrambled it to make a type specimen book it has</li>
+        <li>What is Lorem Ipsum Lorem Ipsum is simply dummy text of </li>
+        <li>What is Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum has been the industry's standard dummy /li>
+        <li>What is Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum has been the industry's standard dummy text ever since the 1500s when an </li>
+        <li>What is Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum has been the industry's standard dummy text ever since the 1500s when an unknown printer took a galley of type and scrambled it to make a type specimen book it has</li>
+        <li>What is Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum has been the industry's standard dummy </li>
+        <li>What is Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and  </li>
+        <li>What is Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum has been the industry's standard dummy text ever since the 1500s when an unknown printer took a galley of type and scrambled it </li>
+        <li>What is Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum has been the industry's standard dummy text ever since the 1500s when an unknown printer took a galley of type and scrambled it to make a type specimen </li>
+        <li>What is Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum has been the industry's standard dummy text ever since the 1500s when an unknown printer took a galley of type and scrambled it to make a type specimen book it has</li>
+      </ul>
+    </div>
+
+  </div>
+
+    
+<div class="underVideoDiv">
+    <!--<br><br><br>-->
+    
+      
+    <h4 class="mainHeading"><b>What is Lorem Ipsum?</b></h4><br>
+    
+    <div class="underHeadingDiv">
+
+    <p class="content">What is Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum has been the industry's standard dummy text ever since the 1500s when an unknown printer took a galley of type and scrambled it to make a type specimen book it has?What is Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum has been the industry's standard dummy text ever since the 1500s when an unknown printer took a galley of type and scrambled it to make a type specimen book it has?</p>      
+    </div>
+
+    <!--<br><br><br><br>-->
+    <div class="underContentDiv">
+    <p class="buttonsP"><img class="button1" src="ddd2.png">&nbsp;&nbsp;&nbsp;<img class="button2" src="ddd.png"></p>
+ <p id="foT" style="text-align: center; margin-bottom: -5%; margin-top: 20%; font-size: small;color: grey;">© 2020 Neoestudio Academia Online S.L.<br class="forSm">  Todos los derechos reservados.<br class="forSm"> Página web diseñada por <a href="https://www.qode.pro" style="color: black;">Qode</a></p> 
+    <img id="footerImage" src="5.png">
+  </div>
+</div>
+</div>
+<script>
+function incripcion() {
+  var footerImage = document.getElementById("footerImage");
+    footerImage.style.position="relative";
+    var foT = document.getElementById("foT");
+
+  var incripcion = document.getElementById("incripcion");
+  incripcion.src="incripcionNew.png";
+  
+  var x = document.getElementById("changeAble");
+  x.style.display="block";
+  
+    x.innerHTML = "<div class='text-center'><h3><b>Inscripción</b></h3></div><br><br><div class='container'><p style='text-align: left;'>La <b>solicitud de admisión</b> a las pruebas selectivas podrás realizarla durante <b>15 días hábiles</b> a partir del día siguiente a la publicación de la <b>convocatoria</b> (normalmente en mayo). Se realiza a través de la <b>Sede Electrónica de la Guardia Civil</b> siguiendo los siguientes pasos :</p><br><ol><li>Entra en <b>https://sede.guardiacivil.gob.es</b>,</li><li>Selecciona el procedimiento <b>“Solicitud de Ingreso en la Escala de Cabos y Guardias”</b> (solo disponible durante el periodo de inscripción).</li><li>Accede al procedimiento mediante cualquiera de los métodos de identificación aceptados en la <b>plataforma CLA@VE</b> (Certificado electrónico (DNIe), Cl@ve PIN, Cl@ve Permanente).Para obtener una Clave PIN: <b><a class='as' style='color:black;' href='https://clave.gob.es/clave_Home/PIN24H/Obtencion-clave-pin.html'>https://clave.gob.es/clave_Home/PIN24H/Obtencion-clave-pin.html.</a></b></li><li>Selecciona la <b>modalidad de pago de tasas</b> que corresponda: sin reducción, con bonificación o exención.</li><li>Sigue los pasos indicando los datos personales que se vayan solicitando. Entre ellos, tendrás que indicar tu número de la Seguridad Social (normalmente aparece en las nóminas). En caso de que aún no tengas un número asignado, puedes solicitarlo a través del siguiente enlace:<br><b><a class='as' style='color:black; text-decoration:underline;' href='http://www.seg-social.es/wps/portal/wss/internet/Trabajadores/Afiliacion/7332#7334'>http://www.seg-social.es/wps/portal/wss/internet/Trabajadores/Afiliacion/7332#7334.</a></b><br>Nota importante: Hay que <b>autorizar</b> expresamente a <b>Jefatura de Enseñanza</b> para que solicite todas las <b>verificaciones y certificaciones</b> necesarias al Ministerio del <b>Interior</b> (Sistema de Verificación de Datos de Identidad, Dirección General de Tráfico y Dirección General de Apoyo a las Víctimas de Terrorismo), Ministerio de <b>Justicia</b> (Registro Central de Penados), Ministerio de <b>Política Territorial y Función Pública</b>, Ministerio de <b>Educación y Formación Profesional</b>, Ministerio de Hacienda, Ministerio de <b>Trabajo, Migraciones y Seguridad Social</b> (Servicio Público de Empleo Estatal) y, en su caso, Ministerio de <b>Defensa</b>.<br><b>En caso contrario</b>, habría que <b>aportarlas</b> al <b>terminar</b> las <b>pruebas médicas</b>.</li></ul><p style='text-align: left'>Este único procedimiento de inscripción permite el:</p><ul class='uls'><li><b>Pago de tasas</b>.</li><li><b>Firma electrónica</b> de la solicitud.</li><li><b>Envío</b> de la solicitud al <b>Registro electrónico</b>.</li><li>Obtención del <b>justificante</b> (ya no es necesario presentarlo en antes de iniciar el examen).</li><li>Consulta del <b>estado del expediente</b> en el apartado «Mis expedientes».</li></ol><p style='text-align: left'>Una vez terminado solo quedará esperar a que se publique la <b>fecha de las pruebas</b> en el <b>tablón de anuncios</b> del proceso selectivo: <a class='as' style='color:black;' href='https://www.guardiacivil.es/es/servicios/tablonanuncios/ingresocuerpo/index.html'><b>https://www.guardiacivil.es/es/servicios/tablonanuncios/ingresocuerpo/index.html.</b></a></p><p style='text-align: left'>De todas formas, te iremos informando a través del <b>“módulo de novedades”</b> de nuestra app e iremos colgando todos los resultados publicados en el <b>“módulo de descargas”</b>.</p></div>";
+    x.scrollIntoView({behavior:'smooth'});
+    
+}
+function requisitos() {
+  var footerImage = document.getElementById("footerImage");
+    footerImage.style.position="relative";
+  
+  var requisitos = document.getElementById("requisitos");
+  requisitos.src="requisitosNew.png";
+  
+  var x = document.getElementById("changeAble");
+  x.style.display="block";
+  
+    x.innerHTML = "<div class='text-center'><h3><b>Requisitos</b></h3></div><br><br><div class='container'><h4><b>Requisitos primer lugar, debes comprobar que:</b></h4><br><p style='text-align: left;'><b>No</b> posees ninguna de las <b>exclusiones médicas</b> mencionadas en el apartado “Pruebas médicas”.</p><p style='text-align: left;'>Cumples los siguientes <b>requisitos previos</b>:</p><br><ul><li>Posees la <b>nacionalidad española</b>.</li><li>Posees el <b>permiso de conducción</b> de la clase <b>B</b>.</li><li>Tienes una <b>altura mínima</b> de <b>160</b> cm (<b>hombres</b>) y <b>155</b> cm (<b>mujeres</b>). No superas la <b>altura</b> de <b>203</b> cm.</li><li>Tienes cumplidos <b>18 años</b> de edad, dentro del <b>año</b> en que se publique la <b>convocatoria</b>.</li><li><b>No</b> has cumplido ni cumplirás la edad de <b>40 años</b>, dentro del año en que se publique la <b>convocatoria</b>.</li><li>Estas en posesión del título de <b>Graduado en Educación Secundaria</b>, de otro <b>equivalente académico</b> o de la <b>prueba de acceso</b> a la <b>Formación Profesional</b></li><li><b><b>Careces</b></b> de <b>antecedentes penales</b>.</li><li>Posees la <b>aptitud psicofísica</b> necesaria que acreditarás mediante la superación de los <b>ejercicios físicos, reconocimiento médico</b> y <b>entrevista personal</b></li><li><b>Careces</b> de <b>tatuajes</b> que contengan expresiones o imágenes <b>contrarias</b> a los <b>valores constitucionales, militares</b>, que <b>desprestigien</b> la imagen de la <b>Guardia Civil</b>, que sean <b>obscenos</b> o que inciten a <b>discriminaciones</b> de tipo sexual, racial, étnico o religioso (cualquier parte de todo el cuerpo). Asimismo, tampoco se permiten los <b>tatuajes, argollas, espigas e inserciones, automutilaciones</b> que puedan ser visibles vistiendo los diferentes uniformes del cuerpo (camiseta corta y pantalón corto).</li><li>Te comprometes a portar <b>armas</b> y, en su caso, llegar a utilizarlas (firma de un documento).</li><li>Acreditas <b>buena conducta ciudadana </b>(durante la inscripción consentirás que Jefatura de Enseñanza solicite la expedición de tu certificado de conducta ciudadana).</li><li><b>No</b> estás <b>privado</b> de los <b>derechos civiles</b> (inhabilitación, suspensión de empleo público, privación de conducir, portar armas o privación de la patria potestad).</li><li><b>No</b> tienes reconocida la condición de <b>objetor de conciencia</b>, ni estás en trámite de su solicitud. (La objeción de conciencia es la negativa a acatar órdenes, leyes o a realizar actos por motivos éticos o religiosos).</li><li><b>No</b> has sido separado mediante <b>expediente disciplinario</b> del servicio de cualquiera de las Administraciones Públicas ni <b>inhabilitado</b> con carácter firme para el <b>Ejército</b> de funciones públicas</li><li><b>No</b> haber causado <b>baja</b> en un <b>centro docente</b> del <b>Ejercito</b> o de la <b>Guardia Civil</b> por <b>carencia</b> de <b>principios constitucionales</b> y <b>reglas de comportamiento del militar</b> o por <b>falta disciplinaria grave</b></li><li><b>No</b> haber causado <b>baja</b> en un <b>centro docente</b> de formación de la <b>Guardia Civil</b>, por <b>No</b> superar, dentro de los plazos fijados, las pruebas y materias previstas en los <b>planes de estudios</b> correspondientes</li><li><b>No</b> haber <b>finalizado</b> el compromiso como <b>militar</b> de tropa y marinería como consecuencia de un expediente de <b>insuficiencia de facultades profesionales</b>, por imposición de sanción disciplinaria</li></ul></div>";
+
+    x.scrollIntoView({behavior:'smooth'});
+
+}
+function ortografia() {
+  var footerImage = document.getElementById("footerImage");
+    footerImage.style.position="relative";
+  var ortografia = document.getElementById("ortografia");
+  ortografia.src="ortografiaNew.png";
+  
+  var x = document.getElementById("changeAble");
+  x.style.display="block";
+  
+    x.innerHTML = "<div class='text-center'><h3><b>Ortografía</b></h3></div><br><br><div class='container'><br><p style='text-align: left;'>Es la primera prueba que realizarás en el proceso selectivo. A ésta, le seguirán las de conocimientos, inglés y psicotécnicos (por este orden). Es imprescindible que utilices <b>bolígrafo negro</b> (no azul) y lleves el <b>DNI en vigor</b>.</p><p style='text-align:left'>La <b>prueba de ortografía</b> tiene las siguientes características:</p><ul><li>Se trata de <b>10 oraciones</b> con <b>4 palabras subrayadas</b> y enumeradas con las letras <b>A, B, C</b> y <b>D</b></li><li>Consiste en <b>marcar</b> en la <b>hoja de respuestas</b> solo las palabras que están <b>escritas ortográficamente</b> de forma <b>incorrecta.</b></li><li>Esta prueba se evaluará como <b>'apto'</b> o <b>'no apto'</b>.</li><li>Serán declarados <b>'no aptos'</b> y quedarán excluidos del proceso selectivo aquellos que tengan <b>11</b> o más <b>fallos</b>.</li><li>El <b>tiempo</b> que dispondrás para realizar esta prueba será de <b>10 min</b>.</li><li>Se considera <b>fallo</b>, tanto <b>dejar de marcar</b> una palabra con <b>falta de ortografía</b> como <b>marcar</b> una que es <b>correcta</b>.</li></ul><div class='text-center'><b>Ejemplo de prueba de ortografía</b><br><img src='formu.png' style='width:35%;'></div></div>";
+    x.scrollIntoView({behavior:'smooth'});
+    
+}
+function conciementos() {
+  var footerImage = document.getElementById("footerImage");
+    footerImage.style.position="relative";
+  
+  var conciementos = document.getElementById("conciementos");
+  conciementos.src="conciementosNew.png";
+
+  var x = document.getElementById("changeAble");
+  x.style.display="block";
+  
+    x.innerHTML = "<div class='text-center'><h3><b>Concimientos</b></h3></div><br><br><div class='container'><p sttyle='text-align:left'>La <b>prueba de conocimientos</b> consiste en un examen de <b>100 preguntas</b> tipo <b>test</b> con <b>4 opciones</b> a elegir. El tiempo para realizar esta prueba es de <b>1 h</b> y <b>35 min</b>. Además, habrá que contestar <b>5 preguntas de reserva</b> que sólo serán valoradas, por orden, en caso de que el Tribunal de Selección anule alguna/s de ellas. Las <b>preguntas</b> referentes a las <b>materias comunes</b> correspondientes a los temas 18 - 22 tienen un nivel de <b>ESO</b>. Los <b>temas</b> a evaluar son los siguientes:</p><ul><li>Derecho <b>Penal</b>.</li><li>Derecho <b>Procesal Penal</b></li><li>Derecho <b>Civil</b></li><li>Derecho <b>Constitucional</b>.</li><li><b>Derechos Humanos</b></li><li>Derecho de la <b>Unión Europea</b>.</li><li><b>Instituciones Internacionales.</b></li><li><b>Extranjería.  Inmigración.</b></li><li>Derecho <b>Administrativo.</b></li><li><b>Fuerzas y Cuerpos de Seguridad. Guardia Civil.</b></li><li>Ministerio del <b>Interior</b>. Ministerio de <b>Defensa</b>.</li><li><b>Seguridad Pública</b> y <b>Seguridad Privada.</b></li><li>Materias Socio-Culturales: <b>Protección Civil. Desarrollo Sostenible. Eficiencia Energética.</b></li><li>Materias Técnico-Científicas: <b>Tecnologías de la Información y la Comunicación. Estadística.</b></li><li><b>Igualdad.</b></li><li><b>Prevención de Riesgos Laborales.</b></li><li><b>Protección de Datos.</b></li><li><b>Matemáticas.</b></li><li><b>Física y química.</b></li><li><b>Topografía.</b></li><li><b>Geografía e Historia.</b></li><li><b>Literatura española.</b></li></ul><p style='text-align: left;'>Las preguntas del examen de conocimiento <b>puntúan</b> de la siguiente manera:</p><ul><li>Las respuestas <b>correctas</b>: suman 1 punto.</li><li>Las respuestas <b>incorrectas</b>: restan <b>0’33</b> puntos</li><li>Las preguntas <b>nulas</b> no contestadas <b>ni suman ni restan.</b></li></ul></div>";
+    x.scrollIntoView({behavior:'smooth'});
+    
+  
+}
+function ingles() {
+  var footerImage = document.getElementById("footerImage");
+    footerImage.style.position="relative";
+  
+  var ingles = document.getElementById("ingles");
+  ingles.src="inglesNew.png";
+
+  var x = document.getElementById("changeAble");
+   x.style.display="block";
+  
+    x.innerHTML = "<div class='text-center'><h3><b>Inglés</b></h3></div><br><br><div class='container'><p style='text-align: left'>La <b>prueba de inglés</b> está aún por determinar ya que se acaba de añadir una serie de preguntas de <b>comprensión de textos</b>. Hasta ahora consistía en un examen de <b>gramática inglesa</b> de <b>20 preguntas</b> tipo <b>test</b> con <b>4 opciones</b> a elegir. Además, había que contestar <b>1 pregunta</b> de <b>reserva</b> en un tiempo total de <b>21 min</b>. El nivel de los <b>contenidos</b> a evaluar corresponde al programa de <b>ESO</b> descrito en el Real Decreto 1105/2014 siendo los contenidos los siguientes:</p><ul><li>Condicional 1: <b>if</b> (si).&nbsp;&nbsp;Ej: <b>If</b> you study, you will pass the exam</li><li>Condicional 2: <b>if</b> (si).&nbsp;&nbsp;Ej: <b>If</b> you study, you will pass the exam.</li><li>Condicional 2: <b>if</b> (si).&nbsp;&nbsp;Ej: <b>If</b> I won the lottery, I would buy a big house.</li><li>Condicional 3: if (si).&nbsp;&nbsp;Ej: <b>If</b> I hadn't eaten so much, I wouldn't have felt sick.</li><li>Condición: <b>unless</b> (a menos que).&nbsp;&nbsp;Ej: You'll be sick <b>unless</b> you stop eating</li><li>Estilo indirecto: <b>información reseñada</b>.&nbsp;&nbsp;Ej: <b>Did James tell you how old he is?</b></li><li>Estilo indirecto: <b>peticiones</b>.&nbsp;&nbsp;Ej: She <b>asked for</b> an apple.</li><li>Estilo indirecto: <b>sugerencias</b>.&nbsp;&nbsp;Ej: She <b>suggested</b> I see the doctor.</li><li>Estilo indirecto: <b>ordenes</b>.&nbsp;&nbsp;Ej: The doctor <b>told me to stop smoking.</b></li><li><b>What a</b> + adj. + noun.&nbsp;&nbsp;Ej: <b>What</b> a wonderful ice-cream!</li><li><b>What</b> + adj. + noun&nbsp;&nbsp;Ej: <b>What</b> wonderful funiture!</li><li><b>How</b> + adj. + noun.&nbsp;&nbsp;&nbsp;&nbsp;Ej: <b>How</b> interesting!</li><li>Frases y oraciones <b>exclamativas</b>.&nbsp;&nbsp;Ej: “Well, that is a surprise!”, “Fine! Great!”</li><li>Frases negativas con <b>not</b> (no).&nbsp;&nbsp;Ej: That is <b>not</b> exactly what she told you</li><li>Frases negativas con <b>never</b> (nunca).&nbsp;&nbsp;Ej: She’s <b>never</b> been abroad.</li><li>Frases negativas con <b>no</b> (ningún, nadie).&nbsp;&nbsp;Ej: <b>no</b> problem, <b>no</b>body, <b>no</b>where.</li><li>Frases negativas con <b>nothing</b> (nada).&nbsp;&nbsp;Ej: There’s <b>nothing</b> wrong with you</li><li><b>Positive question tags</b> (¿no?, ¿verdad?).&nbsp;&nbsp;Ej: Pablo doesn’t work in a bank, <b>does he</b>?</li><li><b>Negative question tags</b> (¿no?, ¿verdad?).&nbsp;&nbsp;Ej: You are a student, <b>aren’t you?</b></li><li><b>Neither</b> (tampoco, ninguno).&nbsp;&nbsp;Ej: <b>neither</b> would I (yo tampoco), <b>neither</b> of them (ninguno de ellos).</li><li>Preposiciones <b>since</b> y <b>for</b> con present perfect.&nbsp;&nbsp;Ej: She has lived here <b>for twenty</b> years/<b>since</b> 2000.</li><li><b>Pasivas</b> (diferentes tiempos verbales).&nbsp;&nbsp;Ej: My father <b>bought</b> the house. The house <b>was bought by</b> my father.</li><li>Expresión de intención futura: <b>present continuous</b>. &nbsp;&nbsp;&nbsp;&nbsp;Ej: <b>I’m meeting</b> John <b>on Saturday</b> to watch the football match</li><li>Expresión de la <b>existencia</b>.&nbsp;&nbsp;Ej: <b>there will be</b> (habrá), <b>there has been</b> (ha habido).</li><li>Expresión habitual: simple tenses + adv.&nbsp;&nbsp;Ej: <b>usually, always, used to…</b></li><li>Expresión incoativa: <b>start -ing, be about to.</b>&nbsp;&nbsp;Ej: When shall I <b>start working?</b></li><li>Expresión terminativa: <b>stop -ing</b>&nbsp;&nbsp;Ej: It’s <b>stopped raining</b>. Let’s go for a walk</li><li><b>Affirmative tags</b> (partículas afirmativas)&nbsp;&nbsp;Ej: 'I love travelling around the world.' '<b>So do I</b>.'</li><li><b>Have you</b> just <b>finished</b>?</li><li><b>Have</b> you <b>ever worked</b>?</li><li>Resultado: <b>so that</b> (así que).</li><li>Preguntas: <b>whose, where, what, who, whom y why</b>.</li><li>Expresión de capacidad: <b>can</b> y <b>be able</b>.</li><li>Expresión de posibilidad/probabilidad: <b>may, might</b> y <b>perhaps</b>.</li><li>Expresión de permiso: <b>may, could</b> y <b>allow</b>.</li><li>Expresión de necesidad: <b>must, need, have (got) to.</b></li><li>Expresión de obligación: <b>have</b> (got) <b>to</b>, <b>must</b>, <b>imperative</b>. Ej: Brush your <b>teeth</b>, now!</li><li>Expresión de factualidad: <b>declarative sentences</b>. Ej: He wanted to play football, but she wanted to play basketball</li><li>Expresión de la entidad: <b>countable nouns</b> (house), <b>uncountable nouns</b> (milk), <b>collective nouns</b> (an army of soldiers) y <b>compound nouns</b> (airport).</li><li><b>Affirmative sentences</b>, <b>me too</b> (yo también), <b>I think so</b> (creo que sí), <b>I hope so</b> (espero que sí).</li><li>Conjunciones: <b>and</b> (y), <b>too</b> (también), <b>also</b> (también), <b>or</b> (o), <b>but</b> (pero), <b>because</b>, <b>because of</b> (porque), <b>due to</b> (debido a), <b>so</b> (así que), <b>as soon as</b> (tan pronto como), <b>not only</b>… <b>but also</b> (no solo… sino también), <b>both</b>... <b>and</b> (ambos… y).</li><li>Preposiciones: <b>to + infinitive</b> (para + infinitivo), <b>for</b> (por, para), <b>while</b> (mientras), on (en), at (en, a), <b>by</b> (por).</li><li>Expresión de relaciones lógicas: <b>neither</b> … <b>nor</b> (ni … ni), <b>either</b> … <b>or</b> (o … o).</li><li>Auxiliary questions. Ej: <b>Is there</b>? (¿Hay?), <b>Has there been</b>? (¿Ha habido?), <b>Isn’t</b> your father a fishmonger? (¿Tu padre no es pescadero?), <b>What</b> is this <b>for</b>? (¿para qué es?), <b>What</b> is this <b>about</b>? (¿sobre qué es?).</li><li>Expresión del tiempo <b>presente</b>: <b>present simple, present continuous</b> y <b>present perfect continuous</b>.</li><li>Expresión del tiempo pasado: <b>past simple</b>, <b>past continuous</b>, <b>present perfect</b> y <b>past perfect</b>.</li><li>Expresión del tiempo futuro: <b>going to</b>, <b>will</b> y <b>future perfect</b>.</li><li>Expresión del tiempo futuro: <b>present simple</b> y <b>present continuous</b> + <b>adv</b>. (con valor de <b>futuro</b>).</li><li>Expresión del tiempo future: <b>Will there be</b> a meeting…? (¿Habrá…?); <b>It will be</b> 3 in the afternoon (Serán las 3).</li><li>Expresión del aspecto puntual: <b>simple tenses</b>. Ej: Last night, I ate a sandwich, but I didn't drink a beer.</li><li>Expresión del aspecto durativo: <b>present simple, present perfect, past simple, past perfect y future continuous</b><br>Ej: I lived in London for 4 years <b>but now</b> I live in Valencia).</li><li><b>Relative pronouns</b> (que, el que, quien, a quien, donde, cuando, lo que), <b>reflexive pronouns</b> (yourself), <b>emphatic pronouns</b> (yourself), <b>possessive determiners</b> (my), <b>possessive pronouns</b> (mine), <b>one</b>(s) (this one).</li><li>Expresión de la cualidad: Ej: <b>good at maths</b> (bueno en matemáticas), <b>rather tired</b> (bastante cansado).</li><li>Expresión de la cantidad: <b>singular</b> (apple), <b>plural</b> (apples), <b>cardinal numbers</b> (one), <b>ordinal numerals</b> (first), <b>the</b>, <b>a/an</b>, <b>both</b> (ambos), <b>none</b> (ninguno), <b>any</b>, <b>some</b>, <b>all</b>, <b>either</b>, <b>either of</b> you (cualquiera de vosotros), <b>none of</b> them (ninguno de ellos), <b>most</b> of them (la mayoría de ellos), <b>really</b>, <b>quite, a little, so, enough</b> (enough money / beautiful enough), <b>too many, too, too much.</b></li><li>Expresión del espacio: <b>away, off, apart, from, away from, from…to</b>.</li><li>Expresión de movimiento: <b>on foot, by bus…</b></li><li>Expresión de dirección: <b>across, along, back, back to, down, into, onto, out of, past, through, to, towards</b>.</li><li>Expresión de origen: <b>from, of/out of</b>. Ej: She has to bring her tiffin from home.</li><li>Expresión de lugar: <b>in, at, in from of, between, next to…</b></li><li>Expresión del tiempo: points of time (<b>five to ten</b>), divisions of time (<b>century, season</b>), indications of time (<b>ago, early, late</b>), duration (<b>from... to, during, until, since, for</b>), simultaneousness (<b>while, as, just when</b>), anteriority (<b>already, (not) yet</b>), posteriority (<b>afterwards, later</b>), sequence (<b>first, next, last, second, after that, finally</b>), frequency (<b>often, usually, never, sometimes, hardly ever</b>).</li><li>Expresión del modo: <b>easily, by post</b>, …</li><li>Oposición / concesión: <b>not</b>... <b>but</b> (no…, pero), <b>though</b> (aunque).</li><li><b>Comparativos</b>. Ej: quicker tan (más rápido que), more <b>confortable</b> than (más cómodo que), <b>as / not so</b> + Adj. + <b>as</b>(tan como), better <b>and better</b> (cada vez mejor).</li><li><b>Superlativos</b>: Ej: <b>the highest</b>.</li><li>Relaciones temporales: <b>the moment</b> she left… (el momento en que ella se marchó…)</li></ul><p style='text-align: left'>Las preguntas del examen de inglés <b>puntúan</b> igual que el de conocimientos:</p><ul><li>Las respuestas <b>correctas</b>: suman <b>1</b> punto</li><li>Las respuestas <b>incorrectas</b>: restan 0’33 puntos</li><li>Las preguntas <b>nulas</b> que se dejan en blanco <b>ni suman ni restan</b>.</li><li>El <b>tiempo</b> para realizar esta prueba es de <b>20 min</b>.</li><li>La <b>puntuación máxima</b> son <b>20</b> puntos, y para superarla, será necesario alcanzar una <b>puntuación mínima</b> de <b>8 puntos</b></li></ul></div>";
+     x.scrollIntoView({behavior:'smooth'});
+    
+}
+function psicotecnicos() {
+  var footerImage = document.getElementById("footerImage");
+    footerImage.style.position="relative";
+  
+  var psicotecnicos = document.getElementById("psicotecnicos");
+  psicotecnicos.src="psicotecnicosNew.png";
+
+  var x = document.getElementById("changeAble");
+   x.style.display="block";
+  
+    x.innerHTML = "<div class='text-center'><h3><b>Psicotécnicos</b></h3></div><br><br><div class='container'><p style='text-align:left'>La <b>prueba de psicotécnicos</b> evalúa las <b>habilidades cognitivas</b> para explorar la <b>capacidad</b> de los aspirantes para <b>adaptarse</b> al <b>período académico</b> y al futuro <b>desempeño profesional</b>.</p><p style='text-align:left'>Consta de un <b>test de inteligencia general</b> que evalúan la capacidad de <b>aprendizaje</b>, <b>análisis</b>, <b>razonamiento</b> y <b>potencial</b> <b>cognitivo</b> comparándolos con los resultados del resto de aspirantes. El número de preguntas y el tiempo para realizar esta prueba no se especifica en la convocatoria, pero suelen ser unas <b>80 preguntas</b> aprox. en <b>50 min</b>.</p><p style='text-align:left'>Esta prueba se evaluará de <b>0</b> a <b>15 puntos</b> de forma ponderada aplicando la <b>Campana de Gauss</b>. En este sistema el <b>25%</b> de los aspirantes que <b>menos</b> <b>puntúen</b> obtendrán <b>0 puntos</b>, el aspirante que <b>más puntúe</b> obtendrá <b>15 puntos</b> (aunque no resuelva el test entero correctamente) y el resto, del <b>25%</b> al <b>100%</b>, se ponderará la nota de <b>0</b> a <b>15 puntos</b>.</p><p style='text-align:left'>El desarrollo de la evaluación es la siguiente:</p><p style='text-center'>1º La <b>puntuación directa</b> de los aspirantes se obtendrá aplicando la siguiente fórmula:</p><p class='forLg' style='width:20%; margin-left:40%;border:1px solid; text-align:center'>Pd = [15 / T] * [A - [E / (n - 1)]]</p><p class='forSm' style='border:1px solid; text-align:center'>Pd = [15 / T] * [A - [E / (n - 1)]]</p><p style='text-align:left'>Donde:</p><div class='row'><div class='col-md-7'><p style='text-align:left'><b>Pd</b>: Puntuación directa de la prueba psicotécnica.<br><br><b>T</b>: Total de preguntas que tiene el cuestionario.<br><br><b>A</b>: Número de preguntas correctamente contestadas (aciertos)<br><br><b>E</b>: Número de preguntas incorrectamente contestadas (errores).<br><br><b>N</b>: Número de alternativas de cada pregunta (4)</p></div><div class='col-md-5' style='text-align:center;'><img src='gra.png' style='width:80%; vertical-align:top'></div></div><p style='text-align:left'>2º La <b>puntuación ponderada</b> de los aspirantes se obtendrá aplicando la siguiente fórmula:</p><p class='forLg' style='width:25%; margin-left:37%;border:1px solid; text-align:center;'>Pps = 15 * [(Pd – m) / (Pdmax – m)]</p><p class='forSm' style='border:1px solid; text-align:center;'>Pps = 15 * [(Pd – m) / (Pdmax – m)]</p><p style='text-align:left'>Donde</p><p style='text-align:left'><b>Pps</b>: Puntuación de la prueba psicotécnica.<br><b>Pd</b>: Puntuación directa de la prueba.<br><b>m</b>: Umbral mínimo de puntuación directa. Se fijará a partir del percentil 25 (Pc 25), considerando que este valor será aquel que deje por debajo de sí al 25 % de la muestra total de aspirantes que realizan la prueba.<br><b>Pdmax</b>: Puntuación directa máxima alcanzada en la ejecución de la prueba, de el/los aspirante/s que mejor resultado haya/n obtenido.</p><p style='text-align:left'>Los resultados de la <b>prueba psicotécnica</b> serán <b>tenidos en cuenta</b> para determinar la adecuación del candidato al <b>perfil profesional</b> de la Guardia Civil en la prueba de la <b>entrevista personal</b>. Pero, en realidad, es solo uno de los muchos aspectos a evaluar por lo que, en caso de sacar 0 puntos y superar la nota de corte, no debes preocuparte.</p></div>";
+    x.scrollIntoView({behavior:'smooth'});
+  
+}
+function fisicas() {
+  var footerImage = document.getElementById("footerImage");
+    footerImage.style.position="relative";
+  
+  var fisicas = document.getElementById("fisicas");
+  fisicas.src="fisicasNew.png";
+
+  var x = document.getElementById("changeAble");
+  x.style.display="block";
+  
+    x.innerHTML = "<div class='text-center'><h3><b>Pruebas físicas</b></h3></div><br><br><div class='container'><p style='text-align:left'>Las <b>pruebas físicas</b> se realizan en septiembre en <b>Valdemoro</b> (Madrid). Únicamente serán convocados los aspirantes que hayan pasado la <b>nota de corte</b>.</p><p style='text-align:left'>En primer lugar, se hará la recogida de los <b>certificados médicos</b> que estén correctamente cumplimentados y se hará la entrega de <b>dorsales</b>.</p><p style='text-align:left'>Consisten en realizar las siguientes pruebas (por este orden):</p><div class='row'><div class='col-md-8'><ul><li><b>Flexiones</b>: se comienza situándose en posición de decúbito prono con los brazos extendidos a la altura de los hombres aproximadamente.<br> Se contabilizará una extensión de brazos cuando se toque con la barbilla en una almohadilla de unos 2 cm de grosor y se vuelva a la posición de partida con los brazos totalmente extendidos.<br>Se permiten 2 <b>intentos</b>.<br>Se aconseja realizarlas rápidamente para evitar cansarte más de la cuenta, y realizarlas marcando bien la posición inicial y final para que no te descuente ninguna flexión realizada.<br><br>•&nbsp;&nbsp;<b>Hombres: 18</b> flexiones.<br>•&nbsp;&nbsp;<b>Mujeres: 14</b> flexiones.</li></ul></div><div class='col-md-4 text-center'><img src='ex1.png' style='width:70%;'><br><img src='ex2.png' style='width:70%;'></div></div><br><div class='row'><div class='col-md-8'><ul><li><b>Resistencia muscular</b>: carrera de 2.000 m en pista de atletismo. Se permite <b>1</b> único <b>intento</b>. Se aconseja controlarse los tiempos con un cronómetro para gestionarse la fatiga. Tendrás que mantener el mayor ritmo constante que puedas soportar y aumentar la velocidad los últimos 200m (solo en caso de que vayas justo/a de tiempo).<br><br>•&nbsp;&nbsp;<b>Hombres: 4</b> min y <b>10 s</b>.<br>•&nbsp;&nbsp<b>Mujeres: 4</b> min y <b>50 s</b>.</li><br><li><b>Velocidad</b>: carrera de <b>50</b> m en pista con salida en pie.<br> Se permiten 2 <b>intentos</b>.<br>Se aconseja continuar trotando suavemente tras la prueba de resistencia para evitar lesiones.<br>• &nbsp;&nbsp;<b>Hombres: 8,30 s</b>.<br>• &nbsp;&nbsp;<b>Mujeres: 9,40 s</b>.</li><br></ul></div><div class='col-md-4 text-center'><img src='ex3.jpg' style='width:80%;'><br><br><img src='ex4.jpg' style='width:80%;'></div></div><div class='row'><div class='col-md-8'><ul><li><b>Natación: </b>: recorrido de <b>50</b>m en piscina a estilo libre (crol, braza, etc.).<br> Se permite 1 único <b>intento</b>.<br>Se aconseja llevar gafas para no correr el riesgo de tocar las corcheras que separan los carriles (motivo de exclusión). Es la prueba más fácil ya que la pasan casi todos.<br>• &nbsp;&nbsp;<b>Hombres: 70 s</b>. (<span style='color:red'>pendiente de cambiar</span>)<br>• &nbsp;&nbsp;<b>Mujeres: 75 s</b>.</li></ul></div><div class='col-md-4 text-center'><img src='ex5.png' style='width:85%;'></div></div></div>";
+       x.scrollIntoView({behavior:'smooth'});
+ 
+}
+function biodata() {
+  var footerImage = document.getElementById("footerImage");
+    footerImage.style.position="relative";
+  
+  var biodata = document.getElementById("biodata");
+   biodata.src="biodataNew.png";
+
+  var x = document.getElementById("changeAble");
+  x.style.display="block";
+  
+    x.innerHTML = "<div class='text-center'><h3><b>Biodata</b></h3></div><br><br><div class='container'><p style='text-align:left'>La <b>prueba del biodata</b> consiste en rellenar un <b>cuestionario escrito</b> para facilitar <b>información</b> sobre tu <b>vida</b>, tu <b>personalidad</b> y <b>trayectoria laboral</b>.</p><p style='text-align:left'>Estos <b>datos biográficos</b> son <b>muy útiles</b> para que los <b>entrevistadores</b> puedan hacerse una <b>idea previa</b> de tu <b>personalidad</b> y así preparar con más certeza la entrevista personal.</p><p style='text-align:left'>El <b>tiempo</b> para realizar esta prueba es <b>limitado</b> con la intención de procurar <b>respuestas espontáneas</b>. </p><p style='text-align:left'>Algunas de las <b>preguntas más comunes</b> son:</p><ul><li>Indica tus 3 mayores virtudes y 3 mayores defectos.</li><li>Indica cuales fueron tus trabajos anteriores y cuál fue la causa de su finalización.</li><li>Cuál ha sido tu mayor éxito profesional y el mayor fracaso.</li><li>En qué situaciones consume alcohol y drogas.</li><li>A qué otras oposiciones te has presentado.</li><li>Establece tu orden de tu prioridad en una actividad laboral. Motiva tu respuesta.<br>(remuneración, ambiente laboral, prestigio, estabilidad, promoción, etc.)</li><li>¿Cuáles son los defectos que más te molestan de los demás? (familia y conocidos)</li><li>Indica cómo te valoras puntuándote del 1 al 10 motivando tu respuesta.</li></ul><br><br><p style='text-align:left'>No te preocupes que, al igual que el resto de pruebas, se puede preparar. Te ayudaremos a afrontarla con éxito corrigiendo los errores que cometas.</p><br><br><h3 style='text-align:center'><b>Test de personalidad</b></h3><br><p style='text-align:left'>La <b>prueba de personalidad</b> consiste un <b>examen</b> tipo <b>test</b> de entre <b>400</b> y <b>700</b> preguntas que evalúa todos los <b>rasgos de la personalidad</b>. Cada pregunta es una <b>afirmación</b> con <b>4 opciones de respuesta: bastante de acuerdo</b> (sí), <b>de acuerdo</b> (sí), <b>en desacuerdo</b> (no) y <b>bastante en desacuerdo</b> (no).</p><p style='text-align:left'>El <b>tiempo</b> para realizar esta prueba es <b>limitado</b> con la intención de procurar <b>respuestas espontáneas</b>. Es preciso <b>contestar todas las preguntas a tiempo</b> ya que, si no lo haces, el entrevistador podrá interpretar que dudas y que no estás respondiendo de forma sincera.</p><p style='text-align:left'>Los rasgos de la personalidad que se evalúan son <b>autoeficacia, honestidad, tendencia a la ansiedad, tendencia a la depresión, autoestima, habilidades sociales, estabilidad emocional, ideación suicida, impulsividad, competencias profesionales, atención a las normas, apertura al cambio, sociabilidad, tolerancia a la frustración, control emocional, sensibilidad, vulnerabilidad emocional, inteligencia emocional, empatía, persuasión, autoconfianza, toma de decisiones, trabajo en equipo, liderazgo, disciplina, sentido de la justicia, dominancia, cumplimiento, racionabilidad y motivación</b>. Estos rasgos tienen las siguientes características:</p><ul><li>Muchos de ellos están <b>relacionados</b> entre sí. Ej: La vulnerabilidad emocional y la tolerancia a la frustración.</li><li>Algunos tienen <b>ramificaciones</b>. Ej: Un componente de las habilidades sociales es la introversión/extroversión.</li><li>Todos tienen <b>grados</b>. Ej: Una personalidad ligeramente extrovertida es positivo, pero su exceso es negativo. </li></ul><p style='text-align:left'></p><p style='text-align:left'>Cuando termines los <b>exámenes de personalidad</b> de <b>Neoestudio</b>, podrás acceder a:</p><ul><li>La <b>definición</b> de cada <b>rasgo</b> para entender que se evalúa exactamente.</li><li>La <b>explicación</b> de su <b>importancia</b> en nuestro <b>ámbito laboral</b> con <b>ejemplos prácticos</b>.</li><li>Las <b>estrategias</b> más probables de <b>abordaje</b> del entrevistador en caso de marcar una respuesta no adecuada.</li></ul><p style='text-align:left'>Al contrario de lo que piensan muchas personas, esta prueba requiere una <b>preparación previa</b>. Los psicólogos van a profundizar en tu personalidad tratando de <b>buscar incongruencias</b> y algún <b>rasgo negativo</b> que pueda justificar la exclusión. Por tanto, es muy importante que <b>identifiques</b> y <b>reconozcas</b> los <b>puntos débiles</b> de tu <b>personalidad</b>, para poder <b>corregirlos</b> a tiempo con diversos <b>ejercicios</b>.</p></div>";
+     x.scrollIntoView({behavior:'smooth'});
+   
+  
+}
+function entrevista() {
+  var footerImage = document.getElementById("footerImage");
+    footerImage.style.position="relative";
+  
+  var entrevista = document.getElementById("entrevista");
+  entrevista.src="entrevistaNew.png";
+
+  var x = document.getElementById("changeAble");
+  x.style.display="block";
+  
+    x.innerHTML = "<div class='text-center'><h3><b>Entrevista Personal</b></h3></div><br><br><div class='container'><p style='text-align:left'>La <b>prueba de la entrevista personal</b> consiste en <b>comprobar</b> que tu <b>perfil de personalidad</b> se adecúa al perfil buscado, que es, ni más ni menos, el de un buen <b>Guardia Civil</b>.</p><p style='text-align:left'>Para ello, el entrevistador, un oficial psicólogo de la Guardia Civil, <b>explorará</b> tu <b>forma</b> de <b>pensar</b> y de <b>actuar contrastándola</b> con la <b>información</b> aportada en el <b>biodata</b> y en los <b>test de personalidad</b>.</p><p style='text-align:left'>Durante esta <b>conversación</b>, que puede durar de <b>10</b> a <b>50 min</b>, el entrevistador <b>verificará</b> los <b>aspectos negativos</b> que haya detectado y valorará si son <b>motivo de exclusión</b>.</p><p style='text-align:left'>Cada año muchos aspirantes suspenden esta prueba por no tener la <b>información</b> adecuada, por no <b>identificar</b> o no querer <b>reconocer</b> sus propios defectos y por no <b>corregirlos</b> a tiempo.</p><p style='text-align:left'>El equipo de <b>NEOESTUDIO</b>, que la conoce bien por experiencia propia, te ayudará a superarla con éxito.</p></div>";
+     x.scrollIntoView({behavior:'smooth'});
+  
+}
+function medicas() {
+  var footerImage = document.getElementById("footerImage");
+    footerImage.style.position="relative";
+  
+  var medicas = document.getElementById("medicas");
+  medicas.src="medicasNew.png";
+
+  var x = document.getElementById("changeAble");
+  x.style.display="block";
+  
+    x.innerHTML = "<div class='text-center'><h3><b>Pruebas médicas</b></h3></div><br><br><div class='container'><p style='text-align:left'>Las <b>pruebas médicas</b> se realizan el último día. Consiste en realizar una <b>inspección completa</b> de todas las <b>causas de exclusión</b> mediante las siguientes <b>pruebas</b> (por este orden):</p><ul><li>Analítica de <b>orina</b>.</li><li>Analítica de <b>sangre</b>.</li><li><b>Medición</b> y <b>pesaje</b>.</li><li>Revisión de la <b>vista</b></li><li>Revisión <b>historial médico</b> de la Seguridad Social.</li><li><b>Inspección médica</b>.</li></ul><p style='text-align:center'>Descarga el <a style='color:black; text-decoration:underline' href='exclusionesMédicas.pdf' download><b>cuadro médico de exclusiones <img src='dn.png' style='width:40px;'></b></a></p></div>";
+    x.scrollIntoView({behavior:'smooth'});
+     
+}
+function entrega() {
+  var footerImage = document.getElementById("footerImage");
+    footerImage.style.position="relative";
+  
+  var entrega = document.getElementById("entrega");
+   entrega.src="entregaNew.png";
+  var x = document.getElementById("changeAble");
+  x.style.display="block";
+  
+    x.innerHTML = "<div class='text-center'><h3><b>Entrega de documentation</b></h3></div><br><br><div class='container'><p style='text-align:left'>Es el último paso del proceso selectivo. Se realiza justo después de resultar apto en todas las pruebas médicas. Consiste en <b>entregar</b> todos los <b>documentos</b> y <b>certificados</b> exigidos como <b>requisito obligatorio</b> y los que <b>producen baremo</b>.</p><p style='text-align:left'>Los documentos exigidos son los siguientes:</p><ul class='uls'><li>Original o fotocopia del <b>Graduado</b> en <b>Educación Secundaria Obligatoria</b>, título <b>superior</b> o <b>equivalente</b> (apdo.2.1.9. de la convocatoria). Nota: los títulos extranjeros tienen que estar homologados.</li><li>Todos los <b>títulos</b> justificativos de los <b>méritos</b> que <b>bareman</b> en la convocatoria. Ejemplo:<br>&nbsp;•&nbsp;&nbsp; Permiso de conducción (A2, etc.).<br>&nbsp;• &nbsp;&nbsp;Certificado oficial de la Escuela Oficial de Idiomas extranjeros.<br>&nbsp;•&nbsp;&nbsp; Acreditación de un perfil lingüístico SLP de idiomas extranjeros (militares).<br>&nbsp;• &nbsp;&nbsp;Certificado de Bachiller.<br>&nbsp;•&nbsp;&nbsp; Certificación de deportista de alto nivel.</li>Nota: En caso de no aportarlos se detraerán los puntos sin resultar excluido del proceso selectivo, salvo que se demuestre mala fe.<br><br><li><b>Solo</b> en el <b>caso</b> de no haber <b>autorizado</b> a Jefatura de Enseñanza su <b>comprobación</b> durante la <b>inscripción</b>, se deberán presentar los siguientes documentos:<br>&nbsp;• &nbsp;&nbsp;Fotocopia del <b>DNI</b>.<br>&nbsp;•&nbsp;&nbsp; <b>Permiso de conducción</b> de la clase <b>B</b>,<br>&nbsp;•&nbsp;&nbsp; Certificado original del <b>Registro Central de Penados</b>.<br>&nbsp;• &nbsp;&nbsp;Certificación de su <b>pertenencia</b> y <b>tiempo de servicios</b> en las <b>Fuerzas Armadas</b> (solo para militares, vayan por plazas restringidas o no para comprobar su baremo).<br>&nbsp;•&nbsp;&nbsp; Título de <b>familia numerosa</b> en vigor acreditativo de tal condición y expedido por la correspondiente Comunidad Autónoma (para la exención de las tasas).<br>&nbsp;• &nbsp;&nbsp;Certificación relativa a la condición de <b>demandante de empleo</b> junto con declaración escrita acreditando las rentas (para la exención de las tasas).<br>&nbsp;•&nbsp;&nbsp; Sentencia judicial firme o resolución administrativa que reconozca la condición de <b>víctima del terrorismo</b>(para la exención de las tasas).<br><br>En caso de no aportar esa misma mañana alguno de los <b>documentos exigidos</b>, resultaría <b>excluido</b>.<br>En caso de no aportar algún un <b>documento</b> que produce <b>baremo</b>, se <b>detraerían los puntos</b> correspondientes a esa titulación, salvo que se observe mala fe.</li></ul></div>";
+    x.scrollIntoView({behavior:'smooth'});
+    
+  
+}
+
+</script>
+
+   </body> 
+</html>

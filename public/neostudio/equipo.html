@@ -1,0 +1,599 @@
+<!DOCTYPE html> 
+<html> 
+   <head> 
+      <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <!-- Bootstrap CSS -->
+  
+
+    <title>Neoestudio</title>
+    <style type="text/css">
+    @font-face {
+      font-family: "Proxima Nova Regular";
+      src: url("pr.otf");
+    }
+    @font-face {
+      font-family: "Proxima Nova Bold";
+      src: url("pb.otf");
+    }
+    @font-face {
+  font-family: "Proxima Nova Soft";
+  src: url("pss.ttf");
+}
+b{
+  font-family: Proxima Nova Soft;
+}
+    body{
+      font-family: Proxima Nova Regular;
+      background: url('bodyback.jpg');
+      background-size: 100% 100%;
+    }
+   #tB:focus{
+    outline: 1px;
+  }
+    ul {
+  list-style-type: none;
+}
+
+ul li:before {
+  content: '-';
+  position: absolute;
+  margin-left: -20px;
+}
+  a{
+    color: #777;
+  }
+  a:hover{
+    text-decoration: none;
+    color: white;
+  }
+
+     #nav li {
+  display: inline;
+}
+        
+     
+         #main-container {
+    width: 100%;
+   margin-top: -19px;
+}
+#main-video {
+    object-fit: fill;
+    width: 100%;
+    height: 40vh;
+}
+.logoLeft{
+    width: 30%; height: auto; position: absolute;
+    left: 1px;
+    top: 0px;
+    z-index: 1;
+  }
+  .logoRight{
+    display: none;
+  }
+  .firstLi{
+    padding-right: 75px;
+  }
+  #sv{
+
+  }
+  .underVideoDiv{
+    
+  }
+  .mainHeading{
+    display: none;
+    margin-left: 4%;
+  }
+  .underHeadingDiv{
+    
+  }
+  .content{
+    display: none;
+    margin-left: 5%; margin-right: 1%;
+  }
+  .underContentDiv{
+    background:url(4.png); background-size: contain; background-repeat: no-repeat;
+  }
+  .buttonsP{
+    margin-left: 15%;
+  }
+  .button1{
+    width: 40%;
+  }
+  .button2{
+    width: 40%;
+  }
+  #footerImage{
+     left: 0; bottom: 0;width: 20%;position: relative;margin-top: 40%;
+  }
+  
+  #navbarSupportedContent{
+    padding-left: 30%;
+  }
+  .forLg{
+    display: none;
+  }
+  .forSm{
+    display: block;
+  }
+  
+@media only screen and (min-width: 1000px) {
+  body{
+    background: url('bodyback.jpg');
+      background-size: 100% 100%;
+  }
+  .forLg{
+    display: block;
+  }
+  .forSm{
+    display: none;
+  }
+    a{
+    color: #777;
+  }
+  a:hover{
+    text-decoration: none;
+    color: white;
+  }
+  #nav li {
+    display: inline;
+    padding-left: 45px;
+  }   
+  #main-container {
+    width: 100%;
+   margin-top: -32px;
+  }
+  #main-video {
+    object-fit: fill;
+    width: 100%;
+    height: 85vh;
+  }
+  .logoLeft{
+    width: 10%; height: auto; position: absolute;
+    left: 1px;
+    top: 0px;
+    z-index: 1;
+  }
+  .logoRight{
+    display: block;
+    width: 9%; height: auto; position: absolute;
+    right: 2%;
+    top: 0px;
+    z-index: 1;
+  }
+  .firstLi{
+    
+  }
+#horizontal-style {
+    display: table;
+    width: 70%;
+    margin-left:5%;
+    table-layout: fixed;
+
+}
+#horizontal-style li {
+    display: table-cell;
+}
+#horizontal-style a {
+    display: block;
+    
+    text-align: center;
+    margin: 0 0px;
+    
+}
+#sv{
+  background:url('Header1.png');
+        background-size: 100% 100%; padding-top: 2%;padding-bottom: 4%;border:0
+}
+  .underVideoDiv{
+    margin-top: -150px;
+    background:url(4.png); background-size: contain; background-repeat: no-repeat;
+  }
+  .mainHeading{
+    display: block;
+    visibility: hidden;
+    margin-left: 15%; padding-top: 5%;
+  }
+  .underHeadingDiv{
+    margin-left: 20%; margin-right: 20%;
+  }
+  .content{
+    display: block;
+    visibility: hidden;
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .underContentDiv{
+    position: auto;
+    background: none;
+  }
+  .buttonsP{
+    margin-left: 35%; padding-top: 5%;
+  }
+  .button1{
+    width: 20%;
+  }
+  .button2{
+    width: 20%;
+  }
+  #footerImage{
+    left: 0; bottom: 0;width: 10%;position: relative;margin-top: 0;
+  }
+  
+  #navbarSupportedContent{
+    padding-left: 0;
+  }
+  
+}
+      </style> 
+   </head> 
+     
+   <body style=""> 
+    <div style="background:url('Header1.png');background-size: cover;">
+    <img class="logoLeft" src="1.png">
+    <img class="logoRight" src="Logo.png">
+    <nav id="sv" class="navbar navbar-expand-lg navbar-dark">
+        
+        <button id="tB" style="border: none; position: absolute;right: 0 ;top: 0;" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <img src="Logo.png" class="lgm" style="width: 100px;"><br>
+          <span class="navbar-toggler-icon" style="float: right; border-color: transparent;margin-top: -25px;"></span>
+          
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          
+          <ul class="navbar-nav mr-auto" id="horizontal-style">
+            <li style=""><a href="http://95.179.208.227/acadmy/neostudio/inicio.html">Inicio</a></li>
+            <li style=""><a href="http://95.179.208.227/acadmy/neostudio/oposicion.html">Oposición</a></li>
+            <li style=""><a href="http://95.179.208.227/acadmy/neostudio/formacion.html">Formación</a></li>
+            <li style=""><a href="http://95.179.208.227/acadmy/neostudio/equipo.html" style="color:white;text-decoration:underline;text-underline-position:under;">Equipo</a></li>
+            <li style=""><a href="http://95.179.208.227/acadmy/neostudio/contacto.html">Contacto</a></li>
+            <li style=""><a href="http://95.179.208.227/acadmy/neostudio/registerate.html">¡Regístrate!</a></li>
+            <li style=""><a href="http://95.179.208.227/acadmy/neostudio/comienza.html">¡Comienza ya!</a></li>
+          </ul>
+         
+        </div>
+      </nav>
+
+      <span class="forSm"><br><br><br></span>
+    </div> 
+      <span id=""><br><br><br></span>
+
+  <div class="text-center">
+    <span id="forSm"><br></span>
+    <h2>EQUIPO</h2>
+  </div>
+  <br>
+  <div class="container forLg">
+    <div class="row">
+      <div class="col-md-3 text-center">
+        <img id="cristina" src="cristina.png" style="width: 110%;" onclick="cristina()">
+        <span id="figC" style="display: block; visibility: hidden; padding-left: 30px;">
+        <figcaption style="font-size: larger;"><b>Cristina</b></figcaption>
+        <figcaption style="">Administración</figcaption></span>
+        
+      </div>
+      <div class="col-md-3 text-center">
+        <div  style="">
+          <img id="rocio" src="rocio.png" style="width: 110%;" onclick="rocio()">
+        </div>
+        <span id="figR" style="display: block; visibility: hidden; padding-left: 30px;">
+        <figcaption style="font-size: larger;"><b>Rocio</b></figcaption>
+        <figcaption style="">Atencion al cliente</figcaption>
+        <figcaption style="font-size: smaller; color: grey;">Master en abogacia</figcaption></span>
+      </div>
+      <div class="col-md-3 text-center">
+        <div  style="">
+          <img id="daniel" src="daniel.png" style="width: 110%;" onclick="daniel()">
+        </div>
+        <span id="figD" style="display: block;visibility: hidden; padding-left: 30px;">
+        <figcaption style="font-size: larger;"><b>Daniel</b></figcaption>
+        <figcaption style="">Profesor / Tutor</figcaption>
+        <figcaption style="font-size: smaller; color: grey;">Sargento Guardia Civil</figcaption></span>
+      </div>
+      <div class="col-md-3 text-center">
+        <div  style="">
+          <img id="antonio" src="antonioR.png" style="width: 85%; margin-top: 15px;"
+           onclick="antonio()">
+        </div>
+        <span id="figA" style="display: block;visibility: hidden; margin-top: 15px;">
+        <figcaption style="font-size: larger;"><b>Antonio</b></figcaption>
+        <figcaption style="">Profesor / Tutor</figcaption>
+        <figcaption style="font-size: smaller; color: grey;">Sargento Guardia Civil</figcaption></span>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-md-3 text-center">
+        <img id="hermino" src="hermino.png" style="width: 85%;" onclick="hermino()">
+        <span id="figH" style="display: block;visibility: hidden;">
+        <figcaption style="font-size: larger;"><b>Herminio</b></figcaption>
+        <figcaption style="">Profesor / Tutor</figcaption>
+        <figcaption style="font-size: smaller; color: grey;">Sargento Guardia Civil</figcaption></span>
+        
+      </div>
+      <div class="col-md-3 text-center">
+        <div  style="">
+          <img id="fran" src="fran.png" style="width: 85%;" onclick="fran()">
+        </div>
+        <span id="figF" style="display: block;visibility: hidden;">
+        <figcaption style="font-size: larger;"><b>Fran</b></figcaption>
+        <figcaption style="">Profesor / Tutor</figcaption>
+        <figcaption style="font-size: smaller; color: grey;">Sargento Guardia Civil</figcaption></span>
+
+      </div>
+      <div class="col-md-3 text-center">
+        <div  style="">
+          <img id="juan" src="juan.png" style="width: 85%;" onclick="juan()">
+        </div>
+        <span id="figJ" style="display: block;visibility: hidden;">
+        <figcaption style="font-size: larger;"><b>Juan Sebastian</b></figcaption>
+        <figcaption style="">Profesor / Tutor</figcaption>
+        <figcaption style="font-size: smaller; color: grey;">Sargento Guardia Civil</figcaption>
+      </div>
+      <div class="col-md-3 text-center">
+        <div  style="">
+          <img id="pablo" src="pablo.png" style="width: 85%;"
+           onclick="pablo()">
+        </div>
+        <span id="figP" style="display: block;visibility: hidden;">
+        <figcaption style="font-size: larger;"><b>Pablo</b></figcaption>
+        <figcaption style="">Locutor profesional</figcaption>
+      </div>
+    </div>
+  </div>
+
+  <div class="container forSm">
+    <div class="row">
+      <div class="col-4 text-center">
+        <img id="cristinaS" src="cristina.png" style="width: 130%;" onclick="cristinaS()">
+        <span id="figCS" style="display: block;visibility: hidden;">
+        <figcaption style="font-size: larger;"><b>Cristina</b></figcaption>
+        <figcaption style="font-size: small;">Administración</figcaption></span>
+        
+      </div>
+      <div class="col-4 text-center">
+        <div  style="">
+          <img id="rocioS" src="rocio.png" style="width: 130%;" onclick="rocioS()">
+        </div>
+        <span id="figRS" style="display: block;visibility: hidden;">
+        <figcaption style="font-size: larger;"><b>Rocio</b></figcaption>
+        <figcaption style="font-size: small;">Atencion al cliente</figcaption>
+        <figcaption style="font-size: 68%; color: grey;">Master en abogacia</figcaption></span>
+      </div>
+      <div class="col-4 text-center">
+        <div  style="">
+          <img id="danielS" src="daniel.png" style="width: 130%;" onclick="danielS()">
+        </div>
+        <span id="figDS" style="display: block;visibility: hidden;">
+        <figcaption style="font-size: larger;"><b>Daniel</b></figcaption>
+        <figcaption style="font-size: small;">Profesor / Tutor</figcaption>
+        <figcaption style="font-size: 68%; color: grey;">Sargento Guardia Civil</figcaption></span>
+      </div>
+      
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-4 text-center">
+        <div  style="">
+          <img id="antonioS" src="antonio.png" style="width: 100%;"
+           onclick="antonioS()">
+        </div>
+        <span id="figAS" style="display: block;visibility: hidden;">
+        <figcaption style="font-size: larger;"><b>Antonio</b></figcaption>
+        <figcaption style="font-size: small;">Profesor / Tutor</figcaption>
+        <figcaption style="font-size: 68%; color: grey;">Sargento Guardia Civil</figcaption></span>
+      </div>
+      <div class="col-4 text-center">
+        <img id="herminoS" src="hermino.png" style="width: 100%;" onclick="herminoS()">
+        <span id="figHS" style="display: block;visibility: hidden;">
+        <figcaption style="font-size: larger;"><b>Herminio</b></figcaption>
+        <figcaption style="font-size: small;">Profesor / Tutor</figcaption>
+        <figcaption style="font-size: 68%; color: grey;">Sargento Guardia Civil</figcaption></span>
+        
+      </div>
+      <div class="col-4 text-center">
+        <div  style="">
+          <img id="franS" src="fran.png" style="width: 100%;" onclick="franS()">
+        </div>
+        <span id="figFS" style="display: block;visibility: hidden;">
+        <figcaption style="font-size: larger;"><b>Fran</b></figcaption>
+        <figcaption style="font-size: small;">Profesor / Tutor</figcaption>
+        <figcaption style="font-size: 68%; color: grey;">Sargento Guardia Civil</figcaption></span>
+
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-6 text-center">
+        <div  style="">
+          <img id="juanS" src="juan.png" style="width: 60%;" onclick="juanS()">
+        </div>
+        <span id="figJS" style="display: block;visibility: hidden;">
+        <figcaption style="font-size: larger;"><b>Juan Sebastian</b></figcaption>
+        <figcaption style="font-size: small;">Profesor / Tutor</figcaption>
+        <figcaption style="font-size: 68%; color: grey;">Sargento Guardia Civil</figcaption>
+      </div>
+      <div class="col-6 text-center">
+        <div  style="">
+          <img id="pabloS" src="pablo.png" style="width: 60%;"
+           onclick="pabloS()">
+        </div>
+        <span id="figPS" style="display: block;visibility: hidden;">
+        <figcaption style="font-size: larger;"><b>Pablo</b></figcaption>
+        <figcaption style="font-size: small;">Locutor profesional</figcaption>
+      </div>
+      
+    </div>
+  </div>
+    
+<div class="underVideoDiv">
+    <!--<br><br><br>-->
+    
+      
+    <h4 class="mainHeading"><b>What is Lorem Ipsum?</b></h4><br>
+    
+    <div class="underHeadingDiv">
+
+    <p class="content">What is Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum has been the industry's standard dummy text ever since the 1500s when an unknown printer took a galley of type and scrambled it to make a type specimen book it has?What is Lorem Ipsum Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum has been the industry's </p>      
+    </div>
+
+    <!--<br><br><br><br>-->
+    <div class="underContentDiv">
+    <p class="buttonsP"><img class="button1" src="ddd2.png">&nbsp;&nbsp;&nbsp;<img class="button2" src="ddd.png"></p>
+  <p class="forSm" style="text-align: center; margin-bottom: -35%; margin-top: 12%; font-size: small;color: grey;">© 2020 Neoestudio Academia Online S.L.<br class="forSm"> Todos los derechos reservados <br class="forSm"> Página web diseñada por <a href="https://www.qode.pro" style="color: black;">Qode</a></p> 
+   <p class="forLg" style="text-align: center; margin-bottom: -5%; margin-top: 20%; font-size: small;color: grey;">© 2020 Neoestudio Academia Online S.L. Todos los derechos reservados <br class="forSm"> Página web diseñada por <a href="https://www.qode.pro" style="color: black;">Qode</a></p> 
+    <img id="footerImage" src="5.png">
+  </div>
+</div>
+</div>
+<script>
+function cristina() {
+  var figC = document.getElementById("figC");
+  figC.style.visibility="visible";
+  var cristina = document.getElementById("cristina");
+  cristina.src="cristinaNew.png"; 
+}
+function rocio() {
+  var figR = document.getElementById("figR");
+  figR.style.visibility="visible";
+  var rocio = document.getElementById("rocio");
+  rocio.src="rocioNew.png";
+}
+function daniel() {
+  var figD = document.getElementById("figD");
+  figD.style.visibility="visible";
+  var daniel = document.getElementById("daniel");
+  daniel.src="danielNew.png";
+
+}
+function antonio() {
+  var figA = document.getElementById("figA");
+  figA.style.visibility="visible";
+  var antonio = document.getElementById("antonio");
+  antonio.src="antonioNewR.png";
+
+}
+function hermino() {
+  var figH = document.getElementById("figH");
+  figH.style.visibility="visible";
+  var hermino = document.getElementById("hermino");
+  hermino.src="herminoNew.png";
+
+}
+function fran() {
+  var figF = document.getElementById("figF");
+  figF.style.visibility="visible";
+  var fran = document.getElementById("fran");
+  fran.src="franNew.png";
+
+}
+function juan() {
+  var figJ = document.getElementById("figJ");
+  figJ.style.visibility="visible";
+  var juan = document.getElementById("juan");
+  juan.src="juanNew.png";
+
+}
+function pablo() {
+  var figP = document.getElementById("figP");
+  figP.style.visibility="visible";
+  var pablo = document.getElementById("pablo");
+  pablo.src="pabloNew.png";
+
+}
+
+
+function cristinaS() {
+  var footerImage = document.getElementById("footerImage");
+    footerImage.style.position="relative";
+    footerImage.style.marginTop="25%";
+  var figCS = document.getElementById("figCS");
+  figCS.style.visibility="visible";
+  var cristinaS = document.getElementById("cristinaS");
+  cristinaS.src="cristinaNew.png";
+
+}
+function rocioS() {
+  var footerImage = document.getElementById("footerImage");
+    footerImage.style.position="relative";
+    footerImage.style.marginTop="25%";
+  var figRS = document.getElementById("figRS");
+  figRS.style.visibility="visible";
+  var rocioS = document.getElementById("rocioS");
+  rocioS.src="rocioNew.png";
+
+}
+function danielS() {
+  var footerImage = document.getElementById("footerImage");
+    footerImage.style.position="relative";
+    footerImage.style.marginTop="25%";
+  var figDS = document.getElementById("figDS");
+  figDS.style.visibility="visible";
+  var danielS = document.getElementById("danielS");
+  danielS.src="danielNew.png";
+
+}
+function antonioS() {
+  var footerImage = document.getElementById("footerImage");
+    footerImage.style.position="relative";
+    footerImage.style.marginTop="25%";
+  var figAS = document.getElementById("figAS");
+  figAS.style.visibility="visible";
+  var antonioS = document.getElementById("antonioS");
+  antonioS.src="antonioNew.png";
+
+}
+function herminoS() {
+  var footerImage = document.getElementById("footerImage");
+    footerImage.style.position="relative";
+    footerImage.style.marginTop="25%";
+  var figHS = document.getElementById("figHS");
+  figHS.style.visibility="visible";
+  var herminoS = document.getElementById("herminoS");
+  herminoS.src="herminoNew.png";
+
+}
+function franS() {
+  var footerImage = document.getElementById("footerImage");
+    footerImage.style.position="relative";
+    footerImage.style.marginTop="25%";
+  var figFS = document.getElementById("figFS");
+  figFS.style.visibility="visible";
+  var franS = document.getElementById("franS");
+  franS.src="franNew.png";
+
+}
+function juanS() {
+  var footerImage = document.getElementById("footerImage");
+    footerImage.style.position="relative";
+    footerImage.style.marginTop="25%";
+  var figJS = document.getElementById("figJS");
+  figJS.style.visibility="visible";
+  var juanS = document.getElementById("juanS");
+  juanS.src="juanNew.png";
+
+}
+function pabloS() {
+  var footerImage = document.getElementById("footerImage");
+    footerImage.style.position="relative";
+    footerImage.style.marginTop="25%";
+  var figPS = document.getElementById("figPS");
+  figPS.style.visibility="visible";
+  var pabloS = document.getElementById("pabloS");
+  pabloS.src="pabloNew.png";
+
+}
+
+</script>
+
+
+   </body> 
+</html>
